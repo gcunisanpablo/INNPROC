@@ -1,0 +1,135 @@
+.biblioteca {
+    transition: transform 0.3s ease;
+}
+
+.biblioteca:hover {
+    transform: scale(1.05);
+}
+
+/* Contenedor con zoom suave solo en la imagen */
+.zoomable-container {
+    position: relative;
+    display: inline-block;
+    transition: transform 0.3s ease;
+    /* Animación solo en el contenedor de la imagen */
+}
+
+/* Efecto de zoom suave en la imagen */
+.zoomable-container:hover .interactive-image {
+    transform: scale(1.1);
+    /* Solo la imagen se escala */
+}
+
+/* Efecto de sombra al pasar el ratón */
+.area-highlight {
+    transition: box-shadow 0.3s ease;
+}
+
+/* Animación de escala continua */
+@keyframes text-scale {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+        /* Tamaño original */
+    }
+
+    50% {
+        transform: translate(-50%, -50%) scale(1.1);
+        /* Aumenta de tamaño */
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        /* Vuelve al tamaño original */
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes popUp {
+    0% {
+        opacity: 0;
+        transform: scale(0.7) translateY(20px);
+    }
+
+    70% {
+        transform: scale(1.05) translateY(-5px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes slideInFromLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInFromRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Apply animations to different page elements */
+.left-side {
+    opacity: 0;
+    animation: fadeIn 1s ease-out forwards;
+    animation-delay: 0.2s;
+}
+
+/* Main title animation */
+.element1 {
+    opacity: 0;
+    animation: popUp 1s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+    animation-delay: 0.2s;
+    z-index: 10;
+}
+
+.element2 {
+    opacity: 0;
+    animation: popUp 1s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+    animation-delay: 0.4s;
+}
+
+.element3 {
+    opacity: 0;
+    animation: popUp 1s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+    animation-delay: 0.6s;
+}
+
+.element4 {
+    opacity: 0;
+    animation: popUp 1s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+    animation-delay: 0.8s;
+}
+
+.element5 {
+    opacity: 0;
+    animation: popUp 1s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+    animation-delay: 1s;
+}

@@ -1,0 +1,47 @@
+<style>
+  /* Para aumentar el tamaño de los input */
+  input[type='text'] {
+    width: 100%; /* El ancho será del 100% del contenedor */
+    font-size: 16px; /* Puedes ajustar el tamaño de la fuente */
+  }
+  /* Estilo para el textarea */
+  textarea {
+    width: 100% !important; /* Hace que ocupe todo el ancho disponible del contenedor */
+    padding: 5px !important; /* Espaciado interno */
+    font-size: 14px !important; /* Tamaño de la fuente */
+  }
+</style>
+<style>
+  .btn-gradient {
+    background: linear-gradient(to right, #388e3c 0%, #66bb6a 100%);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-decoration: none;
+  }
+  
+  .btn-gradient:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  }
+</style>
+<form action="{% url 'editar-termino' formulario.instance.id_termino %}" method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+
+  {% for campo in formulario %}
+    {% if campo.name == 'termino' %}
+      <div class="mb-3">
+        <label style="width: 100%; margin: 0;" for="{{ campo.id_for_label }}" class="form-label">{{ campo.label }}{{ campo }}</label>
+      </div>
+    {% else %}
+      Definición<div class="mb-1">
+        <label style="width: 100%;" for="{{ campo.id_for_label }}" class="form-label">{{ campo }}</label>
+      </div>
+    {% endif %}
+    <div class="col-12 help-text">{{ campo.errors }}</div>
+  {% endfor %}
+
+  <input class="btn btn-gradient" type="submit" value="Enviar Información" />
+</form>

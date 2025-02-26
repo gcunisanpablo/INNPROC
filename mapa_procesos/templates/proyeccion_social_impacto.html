@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block titulo %}
+  Extension y Proyeccion Social
+{% endblock %}
+
+{% block contenido %}
+  <style>
+    /* Responsive Design for Smaller Screens */
+    @media screen and (max-width: 1205px) {
+      .left-side,
+      .right-side {
+        width: 50%;
+        max-width: 50%;
+        text-align: center;
+      }
+    
+      .left-side {
+        margin-bottom: 30px;
+      }
+    
+      .left-side h3 {
+        font-size: 1.2rem;
+        margin-top: 15px;
+      }
+    
+      .left-side .imgleft {
+        width: 30%;
+        max-width: 300px;
+      }
+    
+      .right-side .image-container {
+        margin: 20px 0 !important;
+        width: 40% !important;
+        max-width: 350px;
+      }
+    
+      .interactive-image {
+        width: 100% !important;
+        max-width: 350px;
+      }
+    
+      .text-overlay {
+        left: 47% !important;
+        font-size: 0.8rem;
+        width: 50% !important;
+      }
+    
+      .right-side .element1,
+      .right-side .element2,
+      .right-side .element3,
+      .right-side .element4,
+      .right-side .element5 {
+        margin-left: 20px !important;
+        margin-right: 0 !important;
+      }
+    }
+    /* Imagen interactiva */
+    .interactive-image {
+      display: block;
+      width: 120%;
+      height: auto;
+      transition: transform 0.3s ease; /* Solo la imagen tiene animación de escala */
+    }
+    
+    /* Estilo para el texto sobre la imagen */
+    .text-overlay {
+      position: absolute;
+      top: 50%; /* Centrar el texto verticalmente */
+      left: 55%; /* Centrar el texto horizontalmente */
+      transform: translate(-50%, -50%); /* Ajustar el desplazamiento para el centrado exacto */
+      color: black;
+      font-size: 0.9rem; /* Tamaño fijo del texto */
+      font-weight: bold;
+      text-align: center;
+      width: 90%; /* Ajuste del ancho del texto */
+      transition: color 0.3s ease; /* Transición suave para el cambio de color */
+    }
+    
+    /* Cambio de color al pasar el ratón */
+    .zoomable-container:hover .text-overlay {
+      color: red; /* Cambiar el color del texto a amarillo */
+      animation: text-scale 3s ease-in-out infinite;
+    }
+    
+    /* Colocar las imágenes en línea */
+    .container-flex {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%; /* Asegurarse de que ocupe todo el ancho */
+    }
+    
+    .left-side,
+    .right-side {
+      width: 50%; /* Ajustar el tamaño de las columnas */
+    }
+    
+    /* Ajustes globales */
+    body,
+    html {
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden; /* Evitar el desplazamiento horizontal innecesario */
+    }
+    
+    /* Estilos adicionales para el título y el texto en la izquierda */
+    .left-side h3 {
+      font-size: 1.5rem;
+      font-weight: bold;
+      text-align: center;
+      margin-top: 15px;
+      color: #333; /* Color de texto para el título */
+    }
+  </style>
+  <link rel="stylesheet" href="{% static 'css/anim.css' %}" />
+  <main>
+    <section class="container-fluid mt-4">
+      <div class="container-flex">
+        <!-- Sector izquierda -->
+        <div class="text-center left-side">
+          <div class="image-container zoomable-container">
+            <a href="{% url 'mapa-procesos' %}"><img src="{% static 'img/svg/birrete.PNG' %}?version=2" style="width: 70%;" class="imgleft" /></a>
+            <strong><h3>PROYECCIÓN SOCIAL DE IMPACTO</h3></strong>
+          </div>
+        </div>
+
+        <!-- Sector derecha -->
+        <div class="right-side">
+          <div class="image-container zoomable-container element1" style="margin-left: 70px; margin-right: 119px; cursor: pointer;" onclick="window.location.href='{% url 'extension-proyeccion' %}'">
+            <!-- Imagen interactiva con el efecto de zoom -->
+            <img src="{% static 'img/svg/papel.png' %}?version=2" class="interactive-image zoomable-image" />
+            <!-- Texto sobre la imagen -->
+            <div class="text-overlay">
+              EXTENSIÓN Y <br /> PROYECCIÓN <br /> SOCIAL
+            </div>
+          </div>
+
+          <div class="image-container zoomable-container element2" style="cursor: pointer;" onclick="window.location.href='{% url 'relacionamineto-egresados' %}'">
+            <img src="{% static 'img/svg/papel.png' %}?version=2" class="interactive-image zoomable-image" />
+            <div class="text-overlay">
+              RELACIONAMIENTO <br /> CON EGRESADOS
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+{% endblock %}

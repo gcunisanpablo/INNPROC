@@ -1,0 +1,362 @@
+.sidebar {
+    background: linear-gradient(318deg, #ff3d3d, #8b0000, #ff6b6b, #600000, #ff9999);
+    background-size: 500% 500%;
+    animation: Coolgradient 30s ease infinite;
+    border-radius: 10px;
+    width: 500px;
+    color: white;
+    padding: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-size: 0.9rem;
+    margin: 10px;
+}
+
+.tutorial-list {
+    list-style: none;
+    padding: 0;
+}
+
+.tutorial-item {
+    margin-bottom: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 8px;
+    transition: all 0.3s ease;
+}
+
+.tutorial-item:hover {
+    transform: translateX(10px);
+    color: #ff6b6b;
+}
+
+.tutorial-item a {
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.tutorial-item i {
+    font-size: 1.5rem;
+    color: #ff6b6b;
+}
+
+.accordion-button {
+    background-color: #8b0000 !important;
+    color: white !important;
+    font-size: 0.9rem;
+    padding: 10px;
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: #800000 !important;
+}
+
+.accordion-body {
+    background-color: #a30000;
+    color: white;
+    padding: 10px;
+}
+
+.fondo {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 88vh;
+    background: linear-gradient(318deg, #ff3d3d, #8b0000, #ff6b6b, #600000, #ff9999);
+    background-size: 500% 500%;
+    animation: Coolgradient 30s ease infinite;
+}
+
+@keyframes Coolgradient {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/*novedades*/
+.animate {
+    transition: all 0.3s ease;
+    border: 2px solid #8b0000;
+    /* Borde rojo oscuro por defecto */
+    border-radius: 10px;
+    /* Bordes redondeados */
+}
+
+.transform-hover {
+    position: relative;
+    /* Para efectos de sombra y hover más precisos */
+}
+
+.transform-hover:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    border-color: #ff4500;
+    /* Borde rojo más brillante al hover */
+}
+
+.transform-hover:active,
+.transform-hover.selected {
+    border-color: #ff6347;
+    /* Borde rojo claro cuando está seleccionado */
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.15);
+    transform: translateY(-12px);
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+.card {
+    height: 120%;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    /* Añade algo de padding interno */
+}
+
+.card .btn {
+    position: absolute;
+    bottom: 20px;
+    /* Adjust as needed */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    /* Ensures button is above card content */
+}
+
+/* Efecto adicional de brillo suave */
+.transform-hover::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    opacity: 0;
+}
+
+.transform-hover:hover::before {
+    box-shadow: 0 0 15px rgba(255, 69, 0, 0.3);
+    opacity: 1;
+}
+
+
+/*botones*/
+/* Estilo general para los botones verdes */
+.btn-ver {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 2px;
+    padding: 10px;
+    position: relative;
+    /* Necesario para el pseudo-elemento */
+    overflow: hidden;
+    /* Asegura que el destello no se desborde */
+}
+
+/* Botón verde (insertar) */
+.btn-ver {
+    background: linear-gradient(to right, #43a746 0%, #5dbe62 100%);
+}
+
+.btn-ver:hover {
+    color: black !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(to right, #388e3c 0%, #66bb6a 100%);
+}
+
+/* El destello que atraviesa el botón */
+.btn-ver::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: 0.5s;
+}
+
+.btn-ver:hover::before {
+    left: 100%;
+    /* Movimiento del destello de izquierda a derecha */
+}
+
+.btn-ver:hover .button__icon {
+    animation: bounceRight 0.5s ease-in-out;
+}
+
+/* Keyframes para la animación del icono */
+@keyframes bounceRight {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    50% {
+        transform: translateX(5px);
+    }
+
+    75% {
+        transform: translateX(-2px);
+    }
+}
+
+/* Modal Video Styles */
+.modal-video-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    justify-content: center;
+    /* Centrado horizontal */
+    align-items: center;
+    /* Centrado vertical */
+}
+
+.modal-video-container {
+    position: relative;
+    width: 80%;
+    background: transparent;
+    padding: 20px;
+}
+
+.modal-video-wrapper {
+    position: relative;
+    padding-bottom: 56.25%;
+    /* 16:9 aspect ratio */
+    height: 0;
+    overflow: hidden;
+}
+
+.modal-video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+}
+
+.modal-video-close {
+    position: absolute;
+    top: -30px;
+    right: 0;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 40px;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+.modal-video-close:hover {
+    color: #ff4444;
+}
+/* Page Load Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes popUp {
+    0% {
+        opacity: 0;
+        transform: scale(0.7) translateY(20px);
+    }
+
+    70% {
+        transform: scale(1.05) translateY(-5px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes slideInFromLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInFromRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Apply animations to different page elements */
+main {
+    opacity: 0;
+    animation: fadeIn 1s ease-out forwards;
+    animation-delay: 0.2s;
+}
+
+/* Main title animation */
+h1 {
+    opacity: 0;
+    animation: popUp 1s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+    animation-delay: 0.5s;
+}
+
+/* SVG Map animation */
+object[type="image/svg+xml"] {
+    opacity: 0;
+    animation: fadeIn 1.2s ease-out forwards;
+    animation-delay: 0.8s;
+}

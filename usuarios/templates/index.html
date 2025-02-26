@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style_index.css' %}" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="shortcut icon" href="{% static 'img/unisanp.ico' %}" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1050;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+      
+      .modal.show {
+        opacity: 1;
+        display: flex;
+      }
+      
+      .modal-content {
+        background-color: #fff;
+        border-radius: 8px;
+        width: 90%;
+        max-width: 400px;
+        padding: 24px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        transform: translateY(-20px);
+        transition: transform 0.3s ease;
+      }
+      
+      .modal.show .modal-content {
+        transform: translateY(0);
+      }
+      
+      .modal-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid #e0e0e0;
+      }
+      
+      .modal-header h3 {
+        margin: 0;
+        color: #333;
+        font-size: 1.25rem;
+      }
+      
+      .modal-body {
+        margin-bottom: 24px;
+      }
+      
+      .form-group {
+        margin-bottom: 16px;
+      }
+      
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        color: #555;
+        font-size: 0.9rem;
+      }
+      
+      .input-group {
+        position: relative;
+        display: flex;
+        align-items: center;
+      }
+      
+      .input-group i {
+        position: absolute;
+        left: 12px;
+        color: #666;
+      }
+      
+      .input-group input {
+        width: 100%;
+        padding: 10px 12px 10px 35px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 1rem;
+        transition: border-color 0.2s ease;
+      }
+      
+      .input-group input:focus {
+        outline: none;
+        border-color: #007bff;
+        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+      }
+      
+      .modal-footer {
+        display: flex;
+        justify-content: flex-end;
+        gap: 12px;
+        padding-top: 16px;
+        border-top: 1px solid #e0e0e0;
+      }
+      
+      .btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      
+      .btn-secondary {
+        background-color: #e0e0e0;
+        color: #333;
+      }
+      
+      .btn-secondary:hover {
+        background-color: #d0d0d0;
+      }
+      
+      .btn-primary {
+        background-color: #007bff;
+        color: white;
+        position: relative;
+      }
+      
+      .btn-primary:hover {
+        background-color: #0056b3;
+      }
+      
+      .btn-primary:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+      }
+      
+      .spinner {
+        display: none;
+        width: 16px;
+        height: 16px;
+        border: 2px solid #ffffff;
+        border-top: 2px solid transparent;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+      
+      @keyframes spin {
+        0% {
+          transform: translateY(-50%) rotate(0deg);
+        }
+        100% {
+          transform: translateY(-50%) rotate(360deg);
+        }
+      }
+      
+      .btn-primary.loading .spinner {
+        display: block;
+      }
+      
+      .btn-primary.loading {
+        padding-left: 35px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="screen">
+        <div class="screen__content">
+          <form class="login" method="post">
+            <img src="{% static 'img/logo_oficial_fondo_blanco.jpg' %}" alt="logo_unisanpablo" style="max-width: 300px; height: auto; margin-bottom: 20px; margin-top: 15px; margin-left: 5px;" />
+
+            {% csrf_token %}
+
+            <h2 class="form-title" style="color: #8B0000; margin-bottom: 30px;">Iniciar Sesión</h2>
+
+            <div class="login__field">
+              <i class="login__icon fas fa-user"></i>
+              {{ form.username }}
+            </div>
+
+            <div class="login__field" style="margin-bottom: 25px;">
+              <i class="login__icon fas fa-lock"></i>
+              {{ form.password }}
+            </div>
+            <div style="margin-bottom: 20px;">
+              <a href="#" id="forgot-password-link" style="color: #007bff; text-decoration: none;">¿Olvidó su contraseña?</a>
+            </div>
+
+            <button type="submit" class="login__submit">
+              <span class="button__text">Ingresar</span>
+              <i class="button__icon fas fa-chevron-right"></i>
+            </button>
+          </form>
+        </div>
+
+        <div class="screen__background">
+          <span class="screen__background__shape screen__background__shape5"></span>
+          <span class="screen__background__shape screen__background__shape4"></span>
+          <span class="screen__background__shape screen__background__shape3"></span>
+          <span class="screen__background__shape screen__background__shape2"></span>
+          <span class="screen__background__shape screen__background__shape1" style="text-align: center; vertical-align: middle; padding: 0; padding-top: 50px;"><img src="{% static 'img/Fondo_login.jpg' %}" alt="logo_unisanpablo" style="width: 400px; height: 300px; border-radius: 10px;" /></span>
+          <span class="screen__background__shape screen__background__shape0"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal para Olvidó su contraseña -->
+    <div class="modal" id="forgotPasswordModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Recuperación de Contraseña</h3>
+        </div>
+        <div class="modal-body">
+          <form id="password-recovery-form">
+            <div class="form-group">
+              <label for="email">Correo Electrónico</label>
+              <div class="input-group">
+                <i class="fas fa-envelope"></i>
+                <input type="email" id="email" name="email" required placeholder="Ingrese su correo electrónico" />
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" id="close-modal">Cancelar</button>
+          <button class="btn btn-primary" id="send-recovery-request">
+            <span class="spinner"></span>
+            <span class="button-text">Enviar solicitud</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const modal = document.getElementById('forgotPasswordModal')
+      const forgotPasswordLink = document.getElementById('forgot-password-link')
+      const closeModalButton = document.getElementById('close-modal')
+      const sendButton = document.getElementById('send-recovery-request')
+      let isSubmitting = false
+      
+      // Funciones para mostrar/ocultar el modal con animación
+      function showModal() {
+        modal.classList.add('show')
+      }
+      
+      function hideModal() {
+        modal.classList.remove('show')
+        setTimeout(() => {
+          modal.style.display = 'none'
+        }, 300)
+      }
+      
+      // Abrir modal
+      forgotPasswordLink.addEventListener('click', function (e) {
+        e.preventDefault()
+        modal.style.display = 'flex'
+        setTimeout(showModal, 10)
+      })
+      
+      // Cerrar modal
+      closeModalButton.addEventListener('click', hideModal)
+      modal.addEventListener('click', function (e) {
+        if (e.target === modal) hideModal()
+      })
+      
+      // Manejar envío del formulario
+      sendButton.addEventListener('click', async function () {
+        const emailInput = document.getElementById('email')
+      
+        if (!emailInput.value) {
+          Swal.fire({
+            icon: 'warning',
+            title: 'Campo requerido',
+            text: 'Por favor, ingrese un correo electrónico.',
+            confirmButtonColor: '#007bff'
+          })
+          return
+        }
+      
+        if (isSubmitting) return
+      
+        // Iniciar estado de carga
+        isSubmitting = true
+        sendButton.classList.add('loading')
+        sendButton.disabled = true
+      
+        try {
+          const response = await fetch("{% url 'password_recovery' %}", {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+            },
+            body: JSON.stringify({
+              email: emailInput.value
+            })
+          })
+      
+          const data = await response.json()
+      
+          if (data.success) {
+            hideModal()
+            Swal.fire({
+              icon: 'success',
+              title: '¡Solicitud enviada!',
+              text: 'Se ha enviado un correo con las instrucciones para recuperar su contraseña.',
+              confirmButtonColor: '#28a745'
+            })
+            emailInput.value = ''
+          } else {
+            throw new Error(data.message || 'Error al procesar la solicitud')
+          }
+        } catch (error) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: error.message || 'Ha ocurrido un error. Por favor, intente nuevamente.',
+            confirmButtonColor: '#dc3545'
+          })
+        } finally {
+          // Restaurar estado del botón
+          isSubmitting = false
+          sendButton.classList.remove('loading')
+          sendButton.disabled = false
+        }
+      })
+    </script>
+
+    <script>
+      localStorage.removeItem('modalShown');
+      // Mostrar mensaje de error si existe
+      {% if error %}
+          Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: '{{ error }}',
+              confirmButtonColor: '#FF3030',
+              confirmButtonText: 'Cerrar'
+          });
+      {% endif %}
+    </script>
+  </body>
+</html>

@@ -1,0 +1,39 @@
+<style>
+  /*botones*/
+  /* Estilo general para los botones verdes */
+  .btn-enviar {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 2px;
+  }
+  
+  /* Botón verde (insertar) */
+  .btn-enviar {
+    background: linear-gradient(to right, #4caf50 0%, #66bb6a 100%);
+  }
+  
+  .btn-enviar:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(to right, #388e3c 0%, #66bb6a 100%);
+  }
+</style>
+<form method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+
+  <div class="mb-3">
+    <label for="image" class="form-label">Cargar Imagen</label>
+    <input class="form-control" type="file" name="image" id="image" required />
+    <div style="margin: 20px;" class="text-danger">{{ form.image.errors }}</div> <!-- Mostrar errores -->
+  </div>
+
+  <input style="padding: 10px;" class="btn btn-enviar" type="submit" value="Enviar Imagen" />
+</form>

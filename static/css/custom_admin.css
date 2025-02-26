@@ -1,0 +1,49 @@
+/* Eliminar el borde del logo */
+.logo-personalizado {
+    border: none !important;
+    /* Elimina cualquier borde alrededor del logo */
+    width: 150px !important;
+    /* Ajusta el tamaño del logo */
+    height: auto !important;
+    /* Mantiene la proporción original del logo */
+    box-shadow: none !important;
+    /* Elimina cualquier sombra alrededor del logo */
+}
+
+/* Aumentar la altura de la barra de navegación */
+.navbar {
+    height: 80px;
+    /* Ajusta la altura según lo desees */
+    padding-top: 15px;
+    /* Ajusta el padding superior si es necesario */
+    padding-bottom: 15px;
+    /* Ajusta el padding inferior si es necesario */
+}
+
+/* Ocultar menu lateral*/
+body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .content-wrapper,
+body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .main-footer,
+body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .main-header {
+    margin-left: 0 !important;
+}
+
+.main-sidebar {
+    display: none !important;
+}
+
+/* Ubicación del ícono de usuario */
+.navbar-nav .nav-item.dropdown .nav-link i.far.fa-user {
+    font-size: 30px !important;
+    /* Aumenta el tamaño del ícono */
+    color: white;
+    /* Color blanco para que combine con el tema oscuro */
+    vertical-align: middle;
+}
+
+/* Ajuste del contenedor del ícono */
+.navbar-nav .nav-item.dropdown .nav-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1rem;
+}

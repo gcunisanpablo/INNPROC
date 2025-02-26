@@ -1,0 +1,65 @@
+ENTORNO VIRTUAL 
+
+Crear Entorno Virtual: 
+virtualenv -p python3 env 
+
+Activar Entorno Virtual: 
+.\env\Scripts\activate 
+
+Instalar dependencias en el entorno virtual: 
+pip install -r requirements.txt 
+
+IMPORTANTE: VERIFICAR LAS VARIABLES DE ENTORNO EN EL PATH
+- C:\Program Files\PostgreSQL\16\bin para Postgre (puede cambiar según instalación)
+- Para ngrok servidor web gratuito
+- Verificar instalación de LibreOffice
+
+COMANDOS APLICATIVO WEB 
+
+Ejecutar Servidor:
+- Servidor de pruebas: python manage.py runserver 
+  (Iniciará en: http://127.0.0.1:8000/)
+- Servidor Red local: python manage.py runserver (IPv4):8000
+- inicializar django en el puerto 8000: python manage.py runserver 8000
+- inicializar ngrok: ngrok http 8000
+
+*###* - puente ngrok:
+////
+Este panel permite ver información sobre las conexiones, solicitudes, y más detalles sobre el túnel.
+////
+
+http://127.0.0.1:4040
+
+MIGRACIONES 
+Solo si se crean o actualizan nuevos modelos:
+- Crear Migraciones: python manage.py makemigrations
+- Migrar las Migraciones: python manage.py migrate
+
+COMANDOS BASE DE DATOS:
+- Crear Copia de Seguridad: python backupdb.py
+- Restaurar Copia de Seguridad: python database_restore.py
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ejemplo subida:
+# Importar el modelo Document desde tu aplicación gestor_archivos
+from gestor_archivos.models import Document
+
+# Crear una nueva instancia del modelo Document
+new_document = Document(
+    titulo="Matriz de requisitos ISO",
+    codigo="MRISO",
+    file="uploads\MatrizdeRequisitosISO_18112021.xlsx"  # Ruta relativa
+)
+new_document.save()
+
+
+# Guardar la nueva instancia en la base de datos
+new_document.save()
+
+# Verificar que se ha guardado correctamente
+documents = Document.objects.all()
+for doc in documents:
+    print(doc.titulo, doc.codigo)
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

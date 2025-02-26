@@ -1,0 +1,46 @@
+{% block contenido %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Formulario</title>
+    <style>
+      body {
+        background-color: #f8f9fa; /* Fondo suave */
+        font-family: Arial, sans-serif; /* Tipografía */
+      }
+      
+      .modal {
+        width: 100%; /* Ancho del modal */
+        margin: auto; /* Centrado horizontal */
+        background-color: white; /* Fondo blanco */
+        padding: 20px; /* Espaciado interno */
+      }
+      
+      .form-label {
+        font-weight: bold; /* Texto en negrita */
+        margin-bottom: 5px; /* Espacio inferior */
+      }
+      
+      .form-control {
+        border: 1px solid #ced4da; /* Borde suave */
+        border-radius: 5px; /* Bordes redondeados */
+        transition: border-color 0.2s; /* Transición suave */
+        padding: 12px; /* Espaciado interno vertical */
+        font-size: 1rem; /* Tamaño de fuente */
+        width: calc(100% - 24px); /* Ajuste de ancho con padding */
+        margin-bottom: 15px; /* Espacio inferior entre inputs */
+      }
+      
+      .form-control:focus {
+        border-color: #007bff; /* Color de borde al enfocar */
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Sombra al enfocar */
+      }
+    </style>
+  </head>
+
+  <div class="modal">
+    <div class="card-body">
+      {% include 'form.html' %}
+    </div>
+  </div>
+{% endblock %}

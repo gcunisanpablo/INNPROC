@@ -1,0 +1,236 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="shortcut icon" href="{% static 'img/unisanp.ico' %}" type="image/x-icon" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@500&display=swap" rel="stylesheet" />
+    <title>
+      {% block titulo %}
+
+      {% endblock %}
+    </title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.all.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/base_anim.css' %}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  </head>
+
+  <body class="d-flex flex-column min-vh-100">
+    <nav class="navbar navbar-expand-lg navbar-dark static-top">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'mapa-procesos' %}"><img src="{% static 'img/logo_blanco.png' %}" alt="logo blanco" height="70" /></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ms-auto">
+            <li style="margin-top: 1.2%;" class="nav-item {% if request.resolver_match.url_name == 'atras' %}active{% endif %}">
+              <a style="color: #fff; text-decoration: none; margin-right: 10px;" href="javascript:window.history.back();" title="Volver atrás" class="volver">&#9664;</a>
+            </li>
+            <li class="nav-item {% if request.resolver_match.url_name == 'mapa_procesos' %}active{% endif %}">
+              <a class="nav-link" href="{% url 'mapa-procesos' %}"><i class="bi bi-fan"></i> Mapa de Procesos</a>
+            </li>
+            <li class="nav-item dropdown me-2 {% if request.resolver_match.url_name in 'documentos,manuales' %}active{% endif %}">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-book"></i> Documentación</a>
+              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                <li>
+                  <a class="dropdown-item" href="{% url 'documentos' %}"><i class="bi bi-list"></i> Listado maestro de documentos</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{% url 'politica-calidad' %}"><i class="bi bi-list"></i> Política de calidad</a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item {% if request.resolver_match.url_name == 'glosario' %}active{% endif %}">
+              <a class="nav-link" href="{% url 'glosario' %}"><i class="bi bi-journal"></i> Glosario</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownUser" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-person-circle"></i> {{ user.first_name }} {{ user.last_name }}</a>
+              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownUser">
+                {% if user.is_authenticated and user.is_superuser %}
+                  <li>
+                    <a class="dropdown-item" href="/admin/"><i class="bi bi-person-plus"></i> Panel Administración</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalCambioContraseña"><i class="bi bi-lock"></i> Cambiar contraseña</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="{% url 'logout' %}"><i class="bi bi-power"></i> Cerrar sesión</a>
+                  </li>
+                {% else %}
+                  <li>
+                    <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalCambioContraseña"><i class="bi bi-lock"></i> Cambiar contraseña</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="{% url 'logout' %}"><i class="bi bi-power"></i> Cerrar sesión</a>
+                  </li>
+                {% endif %}
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Modal para cambio de contraseña -->
+    <div class="modal fade" id="modalCambioContraseña" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalLabel">Cambiar Contraseña</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+          <div class="modal-body">
+            <form id="formCambioContraseña">
+              {% csrf_token %}
+              <input type="hidden" name="username" value="usuario_actual" />
+
+              <div class="mb-3">
+                <label for="id_old_password">Contraseña Actual</label>
+                <input type="password" name="old_password" id="id_old_password" class="form-control" autocomplete="current-password" />
+                <div class="invalid-feedback" id="old_password_error"></div>
+              </div>
+
+              <div class="mb-3">
+                <label for="id_new_password1">Nueva Contraseña</label>
+                <input type="password" name="new_password1" id="id_new_password1" class="form-control" autocomplete="new-password" />
+                <div class="invalid-feedback" id="new_password1_error"></div>
+              </div>
+
+              <div class="mb-3">
+                <label for="id_new_password2">Repetir Nueva Contraseña</label>
+                <input type="password" name="new_password2" id="id_new_password2" class="form-control" autocomplete="new-password" />
+                <div class="invalid-feedback" id="new_password2_error"></div>
+              </div>
+
+              <button type="submit" class="btn btn-success">Guardar Cambios</button>
+            </form>
+            <div id="errorMensaje" class="alert alert-danger mt-3" style="display: none;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container m-4" style="background-color: white;"></div>
+    <div class="container-fluid" style="margin: 0;">
+      {% block contenido %}
+
+      {% endblock %}
+    </div>
+    <div class="container m-4"></div>
+
+    <footer class="footer mt-auto footer-dark" style="min-height: 80px; padding: 10px 0; color: #fff;">
+      <div class="container-fluid">
+        <div class="row p-2">
+          <div class="col-md-4 d-flex flex-column align-items-center text-center gap-3">
+            <h5 style="font-size: 1.5em; margin-bottom: 7px;">Innovación y Desarrollo de Uniminuto</h5>
+
+            <div class="d-flex align-items-center justify-content-center gap-3">
+              <div class="flex-grow-1">
+                <img src="{% static 'img/logo2.ico' %}" alt="Logo UNISANPABLO" style="max-width: 55%; height: auto; border-radius: 10px;" />
+                <h2 style="font-family: 'Playfair Display', serif; font-size: 1em; margin-bottom: 0; margin-top: 7px;">INNPROC</h2>
+              </div>
+              <div class="flex-grow-1">
+                <img src="{% static 'img/logotipo.png' %}" alt="Logo UNISANPABLO" style="max-width: 75%; height: auto;" />
+                <p class="mt-2" style="font-size: 0.8em;">Copyright &copy; 2025 - Todos los derechos reservados Uniminuto.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4 text-center">
+            <h5 style="font-size: 1.5em;">Contacto</h5>
+            <p style="font-size: 0.8em; padding-top: 20px">Avenida Calle 170 # 8G - 31 - Bogotá Colombia</p>
+            <p style="font-size: 0.8em;">Teléfono: (+57) 304 632 9604</p>
+            <p style="font-size: 0.8em;">Email: Ejemplo@unisanpablo.edu.co</p>
+          </div>
+          <div class="col-md-3 text-center">
+            <h5 style="font-size: 1.5em; margin-bottom: 10px">Síguenos</h5>
+            <div class="social-icons m-3">
+              <a href="#" class="text-white me-3" style="font-size: 2.5em;"><i class="fab fa-facebook-f" target="_blank"></i></a>
+              <a href="https://twitter.com/unisanpablocol" class="text-white me-3" style="font-size: 2.5em;" target="_blank"><i class="fab fa-twitter"></i></a>
+              <a href="https://www.instagram.com/unisanpablo/" class="text-white me-3" style="font-size: 2.5em;" target="_blank"><i class="fab fa-instagram"></i></a>
+              <a href="https://wa.me/573046329604" class="text-white me-3" style="font-size: 2.5em;" target="_blank"><i class="fab fa-whatsapp"></i></a>
+            </div>
+            <a href="https://unisanpablo.edu.co/" class="text-white text-decoration-none" target="_blank">Página web</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js" integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        // Function to reset error states
+        function resetErrors() {
+          $('.form-control').removeClass('is-invalid')
+          $('.invalid-feedback').html('')
+          $('#errorMensaje').hide()
+        }
+      
+        // Function to display errors
+        function displayErrors(errors) {
+          resetErrors()
+      
+          if (typeof errors === 'string') {
+            $('#errorMensaje').html(errors).show()
+            return
+          }
+      
+          Object.keys(errors).forEach(function (field) {
+            const errorMessages = errors[field].join('<br>')
+            $(`#${field}_error`).html(errorMessages)
+            $(`#id_${field}`).addClass('is-invalid')
+          })
+        }
+      
+        $('#formCambioContraseña').submit(function (event) {
+          event.preventDefault()
+          resetErrors()
+      
+          $.ajax({
+            url: "{% url 'cambiar_contraseña' %}",
+            type: 'POST',
+            data: $(this).serialize(),
+            dataType: 'json',
+            success: function (response) {
+              if (response.success) {
+                Swal.fire({
+                  icon: 'success',
+                  title: '¡Éxito!',
+                  text: response.message,
+                  confirmButtonColor: '#198754'
+                }).then((result) => {
+                  $('#modalCambioContraseña').modal('hide')
+                  $('#formCambioContraseña')[0].reset()
+                })
+              } else {
+                if (response.errors) {
+                  displayErrors(response.errors)
+                } else {
+                  displayErrors(response.message)
+                }
+              }
+            },
+            error: function () {
+              displayErrors('Ocurrió un error al cambiar la contraseña.')
+            }
+          })
+        })
+      
+        // Reset form when modal is closed
+        $('#modalCambioContraseña').on('hidden.bs.modal', function () {
+          $('#formCambioContraseña')[0].reset()
+          resetErrors()
+        })
+      })
+    </script>
+  </body>
+</html>

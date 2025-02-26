@@ -1,0 +1,170 @@
+{% extends 'base.html' %}
+
+{% block titulo %}
+  Visualizar PDF
+{% endblock %}
+
+{% block contenido %}
+  <div class="container-fluid d-flex justify-content-center align-items-center" style="height: 155vh; margin: 0;">
+    <div id="pdf-container" class="border rounded overflow-auto" style="height: 155vh; width: 80%; position: relative; display: flex; justify-content: center; align-items: center;">
+      <canvas id="pdf-viewer" style="display: block; margin: 0 auto;"></canvas>
+
+      <!-- Botón Anterior -->
+      <button class="btn btn-light" id="prev" style="position: absolute; top: 50%; left: 10px; transform: translateY(-50%); width: 50px; height: 80px;">
+        <span class="carousel-control-prev-icon"></span>
+        <span class="visually-hidden">Anterior</span>
+      </button>
+
+      <!-- Botón Siguiente -->
+      <button class="btn btn-light" id="next" style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%); width: 50px; height: 80px;">
+        <span class="carousel-control-next-icon"></span>
+        <span class="visually-hidden">Siguiente</span>
+      </button>
+
+      <!-- Número de página -->
+      <div id="page-number" style="position: absolute; bottom: 10px; left: 10px; font-weight: bold; font-size: 18px;"></div>
+    </div>
+  </div>
+
+  <!-- Modal de carga -->
+  <div id="loading-modal">
+    <div class="loading-container">
+      <div class="loading-text">Cargando contenido...</div>
+      <div class="spinner"></div>
+    </div>
+  </div>
+
+  <!-- Cargar PDF.js desde un CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.min.js"></script>
+
+  <script>
+    // Mostrar el modal de carga al comenzar
+    function showLoadingModal() {
+      document.getElementById('loading-modal').style.display = 'flex'
+    }
+    
+    // Ocultar el modal de carga cuando termine de cargar
+    function hideLoadingModal() {
+      document.getElementById('loading-modal').style.display = 'none'
+    }
+    
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.worker.min.js'
+    
+    var pdfDoc = null,
+      pageNum = 1,
+      pageIsRendering = false,
+      pageNumIsPending = null
+    
+    var pdfPath = "{% url 'download_pdf_visualizar_solo_formato' document.id %}"
+    
+    // Mostramos el modal de carga cuando comienza a cargar el documento PDF
+    showLoadingModal()
+    
+    pdfjsLib.getDocument(pdfPath).promise.then(function (pdfDoc_) {
+      pdfDoc = pdfDoc_
+      renderPage(pageNum)
+    })
+    
+    function renderPage(num) {
+      pageIsRendering = true
+    
+      var canvas = document.getElementById('pdf-viewer')
+      var context = canvas.getContext('2d')
+    
+      pdfDoc.getPage(num).then(function (page) {
+        var viewport = page.getViewport({ scale: 1.5 }) // Ajusta la escala si es necesario
+        canvas.height = viewport.height
+        canvas.width = viewport.width
+    
+        var renderContext = {
+          canvasContext: context,
+          viewport: viewport
+        }
+    
+        page.render(renderContext).promise.then(function () {
+          document.getElementById('page-number').innerText = num
+    
+          pageIsRendering = false
+    
+          // Si hay una página pendiente, la renderizamos
+          if (pageNumIsPending !== null) {
+            renderPage(pageNumIsPending)
+            pageNumIsPending = null
+          }
+    
+          // Ocultamos el modal de carga cuando termine de cargar el PDF
+          hideLoadingModal()
+        })
+      })
+    }
+    
+    // Navegación de páginas
+    document.getElementById('prev').addEventListener('click', function () {
+      if (pageNum <= 1) return
+      pageNum -= 1
+      renderPage(pageNum)
+    })
+    
+    document.getElementById('next').addEventListener('click', function () {
+      if (pageNum >= pdfDoc.numPages) return
+      pageNum += 1
+      renderPage(pageNum)
+    })
+  </script>
+
+  <style>
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+      width: 100%;
+      height: 100%;
+    }
+    
+    .btn-light {
+      background-color: gray;
+    }
+  </style>
+  <style>
+    /* Modal de Cargando */
+    #loading-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+    
+    .loading-container {
+      text-align: center;
+      color: white;
+    }
+    
+    .loading-text {
+      margin-bottom: 20px;
+      font-size: 18px;
+    }
+    
+    .spinner {
+      border: 4px solid rgba(255, 255, 255, 0.3);
+      border-top: 4px solid white;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto;
+    }
+    
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+{% endblock %}

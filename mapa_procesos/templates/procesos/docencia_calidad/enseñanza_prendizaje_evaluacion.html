@@ -1,0 +1,479 @@
+{% extends 'base_sin_boostrap.html' %}
+{% block titulo %}
+  Enseñanza, Aprendizaje y evaluacion
+{% endblock %}
+{% block contenido %}
+  {% load static %}
+
+  <head>
+    <link rel="stylesheet" href="{% static 'css/styles_tabla.css' %}" />
+    <!-- Incluye SweetAlert en el <head> o antes de tu script -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  </head>
+  <div id="contenido">
+    <!-- Campos ocultos para los nombres de los modelos -->
+    <p id="modeloBase" hidden>Document_enseñanza_prendizaje_evaluacion</p>
+    <p id="DiPr" hidden>DiPr_enseñanza_prendizaje_evaluacion</p>
+    <p id="indicadores" hidden>Indicadores_enseñanza_prendizaje_evaluacion</p>
+    <!-- documentos asociados diagramas y formatos -->
+    <p id="img" hidden>DocumentImage_enseñanza_prendizaje_evaluacion</p>
+    <p id="modelo-formato-documentos" hidden>DocumentDoAs_enseñanza_prendizaje_evaluacion_FoAs</p>
+    <!-- Campo oculto para el nombre del modelo -->
+    <input type="hidden" id="model-name" value="EC_enseñanza_prendizaje_evaluacion" />
+    <!-- ubicacion HTML -->
+    <p id="folder-name" hidden>docencia_calidad</p> <!-- Ejemplo de carpeta -->
+    <p id="html-file-name" hidden>enseñanza_prendizaje_evaluacion.html</p> <!-- Ejemplo de archivo -->
+    <!-- spinner -->
+    <div id="loading-spinner" class="loading-spinner" style="display: none;">
+      <div class="spinner"></div>
+    </div>
+
+    <table cellspacing="0" cellpadding="0" style=" width: 100%; margin-top: 1%;">
+      <tr>
+        <th rowspan="3" style="width: 15%;">
+          <img src="{% static 'img/logo_oficial_fondo_blanco.jpg' %}" width="70%" height="70%" style="margin: auto; padding: 0; display: block;" />
+        </th>
+        <th id="editable1" contenteditable="{{ is_superuser|yesno:'true,false' }}" style="width: 63%;">CARACTERIZACIÓN DE PROCESOS UNISANPABLO</th>
+        <th id="editable2" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left" style="width: 22%;">Código: CR-DC-GDC</th>
+      </tr>
+      <tr>
+        <th id="editable3" contenteditable="{{ is_superuser|yesno:'true,false' }}" style="width: 63%;">DOCENCIA DE CALIDAD</th>
+        <th id="editable4" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left" style="width: 22%;">Versión: 1</th>
+      </tr>
+      <tr>
+        <th id="editable5" contenteditable="{{ is_superuser|yesno:'true,false' }}" style="width: 63%;">ENSEÑANZA, APRENDIZAJE Y EVALUACIÓN</th>
+        <th id="editable6" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left" style="width: 22%;">Fecha: 03/Sep/2024</th>
+      </tr>
+    </table>
+    <table cellspacing="0" cellpadding="0" style=" width: 100%; margin-top: -1.75px;">
+      <tr>
+        <th colspan="3" style="padding-top: 0.75pt;">
+          <p class="especial">PROCESO</p>
+        </th>
+      </tr>
+      <tr>
+        <td style="width: 50%">
+          <p class="subtitulo">NOMBRE:</p>
+          <p id="editable7" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left">Enseñanza, aprendizaje y evaluación.</p>
+        </td>
+        <td style="width: 50%">
+          <p class="subtitulo">ALCANCE:</p>
+          <p id="editable8" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left">Inicia con la identificación y análisis de las necesidades de la sociedad y su adecuación a los planes de estudio de cada Proyecto Curricular, continúa con el desarrollo de las actividades de Gestión Docente y Curricular que permiten el cumplimiento del objetivo del proceso, y finaliza con la realización de actividades de evaluación y control sobre los procedimientos realizados, focalizando los resultados a la implementación de la continua mejora del proceso.</p>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <p class="subtitulo">OBJETIVO:</p>
+          <p id="editable9" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left">Garantizar que los Planes de Estudio establecidos para cada Proyecto Curricular, ofrezcan al estudiante de la UNISANPABLO una formación integral y de calidad, dirigida fundamentalmente a las necesidades de la sociedad, contando con la cantidad e idoneidad de Docentes y demás personal que influya directamente en tal Proceso de Formación, garantizando que se ejecute eficientemente el Proceso de Enseñanza-Aprendizaje.</p>
+        </td>
+      </tr>
+    </table>
+    <table cellspacing="0" cellpadding="0" style=" width: 100%; margin-top: -1.50px;">
+      <tr>
+        <th style="padding-top: 0.75pt; width: 13%;">
+          <p class="especial">PROVEEDORES</p>
+        </th>
+        <th style="padding-top: 0.75pt; width: 13%;">
+          <p style="margin-left: 0.25pt;" class="especial">ENTRADAS</p>
+        </th>
+        <th style="padding-top: 0.75pt; width: 9%;">
+          <p class="especial">PHVA</p>
+        </th>
+        <th style="padding-top: 0.75pt; width: 26%;">
+          <p style="margin-left: 0.25pt;" class="especial">DESCRIPCIÓN</p>
+        </th>
+        <th style="padding-top: 0.75pt; width: 26%;">
+          <p class="especial">SALIDAS</p>
+        </th>
+        <th style="padding-top: 0.75pt; width: 13%;">
+          <p class="especial">CLIENTES</p>
+        </th>
+      </tr>
+      <tr>
+        <td style="width: 13%">
+          <p class="subtitulo">EXTERNOS</p>
+          <p id="editable10" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left">(P1) Ministerio de Educación Nacional. (P2) Instituto Colombiano para la Evaluación de la Educación - ICFES. (P3) Otras IES y organizaciones. (P4) Mesas sectoriales y técnicas.</p>
+          <p class="subtitulo">INTERNOS.</p>
+          <p id="editable11" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left">(P5) Todos los procesos.</p>
+        </td>
+        <td style="width: 13%">
+          <p id="editable12" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left">(E1,E2,E4) Tendencias y referentes de innovación y buenas prácticas para la enseñanza y el aprendizaje.(E1,E3) Análisis de tendencias y necesidades de los sectores y de los campos de conocimiento. (E5) Resultado de las evaluaciones externas. (E5) Resultados de la Autoevaluación periódica de programas. (E5) Resultados de evaluaciones de aprendizaje y de cursos. (E5) Requisitos y necesidades de los clientes internos.</p>
+        </td>
+        <td colspan="2" style="width: auto; padding: 0; height: 200px;">
+          <table cellspacing="0" cellpadding="0" style="width: 100%; height: 100%; border-right: none; border-bottom: none;">
+            <tr>
+              <td style="width: 9%; text-align: center; vertical-align: middle; border-top:none; border-left:none;">
+                <p class="subtitulo">P</p>
+              </td>
+              <td style="width: 26%; border-top:none; border-right: none; vertical-align: middle;">
+                <p id="editable13" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left">1. Formular propuesta para la planeación de los syllabus junto con su diseño. 2. Proyectar fechas y responsables para las actividades que se desarrollan a lo largo de un periodo determinado. 3.proyectar horas para la asignación de los cursos académicos al igual que horas para proyección social e investigación 4. Asignar plazas para contratación de docentes. 5. Determinar la carga académica de los docentes de la institución. 6. Oficializar la carga académica de los Docentes de Vinculación especial. 7. Aprobar, validar y ejecutar los planes de trabajo Docente. 8. Planificar actividades académicas y eventos.</p>
+              </td>
+            </tr>
+            <tr>
+              <td style="width: 9%; text-align: center; vertical-align: middle; border-left:none;">
+                <p class="subtitulo">H</p>
+              </td>
+              <td style="width: 26%; padding-bottom: 0; vertical-align: middle;">
+                <p id="editable14" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left">9.Implementar el plan de curso o syllabus de cada espacio académico. 10. Gestionar las prácticas y eventos académicos. 11. Valorar la producción académica. 12. Revisar, aprobar y ejecutar las diferentes modalidades de grado y emitir paz y salvo académico y financiero.</p>
+              </td>
+            </tr>
+            <tr>
+              <td style="width: 9%; text-align: center; vertical-align: middle; border-left:none;">
+                <p class="subtitulo">V</p>
+              </td>
+              <td style="width: 26%; vertical-align: middle;">
+                <p id="editable15" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left">13. Evaluar docentes y recolectar datos. 14. Evaluar los syllabus. 15. Verificar los resultados de la evaluación docente y del curso. 16. Evaluar los planes de trabajo docente.</p>
+              </td>
+            </tr>
+            <tr>
+              <td style="width: 9%; text-align: center; vertical-align: middle; border-left:none; border-bottom: none;">
+                <p class="subtitulo">A</p>
+              </td>
+              <td style="width: 26%; border-bottom: none; vertical-align: middle;">
+                <p id="editable16" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left">17. Implementar Plan de Mejora resultante del Proceso de Evaluación de los syllabus. 18. Implementar Plan de Mejora resultante de la Evaluación Docente.</p>
+              </td>
+            </tr>
+          </table>
+        </td>
+        <td style="width: 26%">
+          <p id="editable17" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left">(S1, S2) Cursos actualizados. (S2) PEP y anexos actualizados. (S2) Plan de estudios. (S2) Planes de mejoramiento y actualización curricular. (S2) Resultado de las evaluaciones. (S2) Informes de gestión.</p>
+        </td>
+        <td style="width: 13%">
+          <p class="subtitulo">EXTERNOS</p>
+          <p id="editable18" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left">(C1) Estudiantes.</p>
+          <p class="subtitulo">INTERNOS.</p>
+          <p id="editable19" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left">(C2) Todos los Procesos.</p>
+        </td>
+      </tr>
+    </table>
+    <table cellspacing="0" cellpadding="0" style=" width: 100%; margin-top: -1.50px;">
+      <tr>
+        <th style="padding-top: 0.75pt;">
+          <p class="especial">REQUISITOS LEGALES Y NORMATIVOS</p>
+        </th>
+        <th style="padding-top: 0.75pt;">
+          <p class="especial">DIAGRAMA DE PROCESO - ROLES Y RESPONSABILIDADES</p>
+        </th>
+      </tr>
+      <tr>
+        <td style="width: 50%; padding: 0;">
+          <table cellspacing="0" cellpadding="0" style="height: 100%; width: 100%; border: none;">
+            <tr>
+              <td style="width: 20%; border: none;">
+                <div id="contenido-principal-requilegalnorma" style="flex: 1; padding-top: 0.5%; padding-left: 2.5%; padding-bottom: 0.5%;">
+                  <!-- Aquí se insertará la lista de requilegalnorma -->
+                </div>
+              </td>
+              <td style="width: 5%; padding: 0; vertical-align: middle; border: none;">
+                {% if user.is_authenticated and user.is_superuser %}
+                  <div style="height: 100%; display: flex; align-items: center; justify-content: center;">
+                    <button class="btn btn-insertar" id="insertar_requilegalnorma" style="padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 24px;">&#43;</button>
+                  </div>
+                {% else %}
+                  <div style="height: 100%; display: flex; align-items: center; justify-content: center;">
+                    <button id="insertar_requilegalnorma" style="padding: 10px 20px; background-color: white; color: white; border: none;" disabled></button>
+                  </div>
+                {% endif %}
+              </td>
+            </tr>
+          </table>
+        </td>
+        <td style="width: 50%">
+          <table cellspacing="0" cellpadding="0" style="height: 100%; width: 100%; border: none;">
+            <tr>
+              <td style="width: 20%; border: none;">
+                <div id="contenido-principal-diagramas" style="flex: 1; padding-top: 0.5%; padding-left: 1%; padding-bottom: 0.5%;">
+                  <!-- Aquí se insertará la lista de diagramas -->
+                </div>
+              </td>
+              <td style="width: 5%; padding: 0; vertical-align: middle; border: none;">
+                {% if user.is_authenticated and user.is_superuser %}
+                  <div style="height: 100%; display: flex; align-items: center; justify-content: center;">
+                    <button class="btn btn-insertar" id="insertar_diagramas" style="padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 24px;">&#43;</button>
+                  </div>
+                {% else %}
+                  <div style="height: 100%; display: flex; align-items: center; justify-content: center;">
+                    <button id="insertar_diagramas" style="padding: 10px 20px; background-color: white; color: white; border: none;" disabled></button>
+                  </div>
+                {% endif %}
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+    <table cellspacing="0" cellpadding="0" style=" width: 100%; margin-top: -1.50px;">
+      <tr>
+        <th style="padding-top: 0.75pt;">
+          <p class="especial">INDICADORES</p>
+        </th>
+        <th style="padding-top: 0.75pt;">
+          <p class="especial">REQUISITOS Y NECESIDADES DE LAS PARTES INTERESADAS</p>
+        </th>
+      </tr>
+      <tr>
+        <td style="width: 50%">
+          <table cellspacing="0" cellpadding="0" style="height: 100%; width: 100%; border: none;">
+            <tr>
+              <td style="width: 20%; border: none;">
+                <div id="contenido-principal-indicadores" style="flex: 1; padding-top: 0.5%; padding-left: 1%; padding-bottom: 0.5%;">
+                  <!-- Aquí se insertará la lista de INDICADORES -->
+                </div>
+              </td>
+              <td style="width: 5%; padding: 0; vertical-align: middle; border: none;">
+                {% if user.is_authenticated and user.is_superuser %}
+                  <div style="height: 100%; display: flex; align-items: center; justify-content: center;">
+                    <button class="btn btn-insertar" id="insertar_indicadores" style="padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 24px;">&#43;</button>
+                  </div>
+                {% else %}
+                  <div style="height: 100%; display: flex; align-items: center; justify-content: center;">
+                    <button id="insertar_indicadores" style="padding: 10px 20px; background-color: white; color: white; border: none;" disabled></button>
+                  </div>
+                {% endif %}
+              </td>
+            </tr>
+          </table>
+        </td>
+        <td style="width: 50%">
+          <table cellspacing="0" cellpadding="0" style="height: 100%; width: 100%; border: none;">
+            <tr>
+              <td style="width: 20%; border: none;">
+                <div id="contenido-principal-requinecepartintere" style="flex: 1; padding-top: 0.5%; padding-left: 2.5%; padding-bottom: 0.5%;">
+                  <!-- Aquí se insertará la lista de requinecepartintere -->
+                </div>
+              </td>
+              <td style="width: 5%; padding: 0; vertical-align: middle; border: none;">
+                {% if user.is_authenticated and user.is_superuser %}
+                  <div style="height: 100%; display: flex; align-items: center; justify-content: center;">
+                    <button class="btn btn-insertar" id="insertar_requinecepartintere" style="padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 24px;">&#43;</button>
+                  </div>
+                {% else %}
+                  <div style="height: 100%; display: flex; align-items: center; justify-content: center;">
+                    <button id="insertar_requinecepartintere" style="padding: 10px 20px; background-color: white; color: white; border: none;" disabled></button>
+                  </div>
+                {% endif %}
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <table cellspacing="0" cellpadding="0" style=" width: 100%; margin-top: -1.75px;">
+        <tr>
+          <th style="padding-top: 0.75pt;">
+            <p class="especial">DOCUMENTOS ASOCIADOS</p>
+          </th>
+        </tr>
+        <tr>
+          <td style="width: 100%;">
+            <table cellspacing="0" cellpadding="0" style="height: 100%; width: 80%; border: none;">
+              <tr>
+                <td style="width: 20%; border: none;">
+                  <div id="contenido-principal" style="flex: 1; padding-top: 0.5%; padding-left: 1%; padding-bottom: 0.5%;">
+                    <!-- Aquí se insertará la lista de documentos -->
+                  </div>
+                </td>
+                <td style="width: 5%; padding: 0; vertical-align: middle; border: none;">
+                  {% if user.is_authenticated and user.is_superuser %}
+                    <div style="height: 100%; display: flex; align-items: center; justify-content: center;">
+                      <button class="btn btn-insertar" id="insertar_documentos" style="padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 24px;">&#43;</button>
+                    </div>
+                  {% else %}
+                    <div style="height: 100%; display: flex; align-items: center; justify-content: center;">
+                      <button id="insertar_documentos" style="padding: 10px 20px; background-color: white; color: white; border: none;" disabled></button>
+                    </div>
+                  {% endif %}
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </table>
+    <table cellspacing="0" cellpadding="0" style=" width: 100%; margin-top: -1.50px;">
+      <tr>
+        <th style="padding-top: 0.75pt;">
+          <p class="especial">VERSIÓN</p>
+        </th>
+        <th style="padding-top: 0.75pt;">
+          <p style="margin-left: 0.25pt;" class="especial">FECHA</p>
+        </th>
+        <th style="padding-top: 0.75pt;">
+          <p class="especial">RAZÓN DE LA ACTUALIZACIÓN</p>
+        </th>
+      </tr>
+      <tr>
+        <td style="width: 11%">
+          <p id="editable20" contenteditable="{{ is_superuser|yesno:'true,false' }}" style="text-align: center;">1</p>
+        </td>
+        <td style="width: 11%">
+          <p id="editable21" contenteditable="{{ is_superuser|yesno:'true,false' }}" style="text-align: center;">03/Sep/2024</p>
+        </td>
+        <td style="width: 50%">
+          <p id="editable22" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left">Creación del proceso</p>
+        </td>
+      </tr>
+    </table>
+    <table cellspacing="0" cellpadding="0" style=" width: 100%; margin-top: -1.50px;">
+      <tr>
+        <th style="padding-top: 0.75pt;">
+          <p class="especial">ELABORÓ</p>
+        </th>
+        <th style="padding-top: 0.75pt;">
+          <p class="especial">REVISÓ</p>
+        </th>
+        <th style="padding-top: 0.75pt;">
+          <p style="margin-left: 0.25pt;" class="especial">APROBÓ</p>
+        </th>
+      </tr>
+      <tr>
+        <td style="width: 33%">
+          <div>
+            <span class="subtitulo">Nombre:</span>
+            <p id="editable23" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left" style="display: inline;">Daniela Torres Torres</p>
+          </div>
+          <div>
+            <span class="subtitulo">Cargo:</span>
+            <p id="editable24" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left" style="display: inline;">Aprendiz</p>
+          </div>
+          <div>
+            <span class="subtitulo">Fecha:</span>
+            <p id="editable25" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left" style="display: inline;">03/Sep/2024</p>
+          </div>
+        </td>
+        <td style="width: 33%">
+          <div>
+            <span class="subtitulo">Nombre:</span>
+            <p id="editable26" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left" style="display: inline;">Martha Esperanza Rodríguez</p>
+          </div>
+          <div>
+            <span class="subtitulo">Cargo:</span>
+            <p id="editable27" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left" style="display: inline;">subdirectora Calidad, Procesos y Riesgos.</p>
+          </div>
+          <div>
+            <span class="subtitulo">Fecha:</span>
+            <p id="editable28" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left" style="display: inline;">03/Sep/2024</p>
+          </div>
+          <br />
+          <div>
+            <span class="subtitulo">Nombre:</span>
+            <p id="editable29" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left" style="display: inline;">...</p>
+          </div>
+          <div>
+            <span class="subtitulo">Cargo:</span>
+            <p id="editable30" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left" style="display: inline;">...</p>
+          </div>
+          <div>
+            <span class="subtitulo">Fecha:</span>
+            <p id="editable31" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left" style="display: inline;">...</p>
+          </div>
+          <br />
+          <div>
+            <span class="subtitulo">Nombre:</span>
+            <p id="editable32" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left" style="display: inline;">...</p>
+          </div>
+          <div>
+            <span class="subtitulo">Cargo:</span>
+            <p id="editable33" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left" style="display: inline;">...</p>
+          </div>
+          <div>
+            <span class="subtitulo">Fecha:</span>
+            <p id="editable34" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left" style="display: inline;">...</p>
+          </div>
+        </td>
+        <td style="width: 33%">
+          <div>
+            <span class="subtitulo">Nombre:</span>
+            <p id="editable35" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left" style="display: inline;">Henry Lurbey Hueso</p>
+          </div>
+          <div>
+            <span class="subtitulo">Cargo:</span>
+            <p id="editable36" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left" style="display: inline;">Rector</p>
+          </div>
+          <div>
+            <span class="subtitulo">Fecha:</span>
+            <p id="editable37" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left" style="display: inline;">03/Sep/2024</p>
+          </div>
+          <br />
+          <div>
+            <span class="subtitulo">Nombre:</span>
+            <p id="editable38" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left" style="display: inline;">...</p>
+          </div>
+          <div>
+            <span class="subtitulo">Cargo:</span>
+            <p id="editable39" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left" style="display: inline;">...</p>
+          </div>
+          <div>
+            <span class="subtitulo">Fecha:</span>
+            <p id="editable40" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left" style="display: inline;">...</p>
+          </div>
+        </td>
+      </tr>
+    </table>
+    <!-- Modal Documentos -->
+    <div id="myModal" style="display: none; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0, 0, 0, 0.5);">
+      <div style="background-color: #fff; margin: auto; padding: 20px; border-radius: 5px; width: 50%; position: relative; top: 50%; transform: translateY(-50%);">
+        <span id="closeModal" style="color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer;">&times;</span>
+        <h4 style="text-align: center;">Datos del Documento</h4>
+        <div id="modalContent"></div> <!-- Contenido del formulario se cargará aquí -->
+      </div>
+    </div>
+    <!-- Modal de carga -->
+    <div id="loading-modal" style="display: none;">
+      <div class="loading-container">
+        <div class="loading-text">Cargando contenido...</div>
+        <div class="spinner"></div>
+      </div>
+    </div>
+    <!-- Modal de Enviando Datos -->
+    <div id="sending-modal" style="display: none;">
+      <div class="loading-container">
+        <div class="loading-text">Enviando datos...</div>
+        <div class="spinner"></div>
+      </div>
+    </div>
+    <p style="margin-top:0pt; margin-bottom:8pt;">&nbsp;</p>
+  </div>
+  {% if user.is_authenticated and user.is_superuser %}
+    <button id="saveButton" style="padding: 15px 30px; 
+         font-size: 18px; 
+         background-color: #4CAF50; 
+         color: white; 
+         border: none; 
+         border-radius: 5px; 
+         cursor: pointer; 
+         transition: background-color 0.3s, transform 0.2s;" onmouseover="this.style.backgroundColor='#45a049'; this.style.transform='scale(1.05)';" onmouseout="this.style.backgroundColor='#4CAF50'; this.style.transform='scale(1)';" onmousedown="this.style.transform='scale(0.95)';" onmouseup="this.style.transform='scale(1.05)';">Guardar</button>
+
+    <p style="margin-top:0pt; margin-bottom:8pt;">&nbsp;</p>
+  {% else %}
+    <p style="margin-top:0pt; margin-bottom:8pt;">&nbsp;</p>
+  {% endif %}
+  <div id="output" hidden></div>
+  {% block scripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script>
+      // Obtener los valores de los elementos HTML
+      let modeloBaseValue = document.getElementById('modeloBase').innerText
+      let imgValue = document.getElementById('img').innerText
+      let modeloFormatoDocumentosValue = document.getElementById('modelo-formato-documentos').innerText
+      
+      // Guardar o sobrescribir en el localStorage
+      localStorage.setItem('modeloBase', modeloBaseValue)
+      localStorage.setItem('img', imgValue)
+      localStorage.setItem('modelo', modeloFormatoDocumentosValue)
+      
+      // Imprimir todo el contenido de localStorage en la consola
+      console.log(localStorage)
+    </script>
+    <script src="{% static 'js/contentManagement.js' %}"></script>
+    <script src="{% static 'js/diagramsManagement.js' %}"></script>
+    <script src="{% static 'js/documentsManagement.js' %}"></script>
+    <script src="{% static 'js/indicatorsManagement.js' %}"></script>
+    <script src="{% static 'js/requiLegalNormaManagement.js' %}"></script>
+    <script src="{% static 'js/requiNecePartIntereManagement.js' %}"></script>
+    <script src="{% static 'js/saveDocument.js' %}"></script>
+  {% endblock %}
+{% endblock %}

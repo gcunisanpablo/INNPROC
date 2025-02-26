@@ -1,0 +1,216 @@
+/* Hace que los elementos no sean visibles, pero ocupen espacio */
+#modeloBase,
+#img,
+#modelo,
+#editable5 {
+    visibility: hidden;
+    display: none;
+}
+
+.nav-button {
+    position: absolute;
+    top: 50%;
+    width: 50px;
+    height: 150px;
+    background: gray;
+    border: none;
+    color: white;
+    transform: translateY(-50%);
+    transition: background 0.3s, transform 0.1s;
+    /* Suaviza la transición del color y el efecto de clic */
+}
+
+.nav-button:hover {
+    background: darkgray;
+    /* Color oscuro al pasar el cursor */
+}
+
+.nav-button:active {
+    transform: translateY(-50%) scale(0.95);
+    /* Efecto de "presionar" al hacer clic */
+    background: dimgray;
+    /* Color más oscuro al hacer clic */
+}
+
+/* Estilos para la sección de carga de imágenes */
+#image-upload-section {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+#image-upload-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+#image-upload-form {
+    margin-top: 10px;
+}
+
+#image-label {
+    font-size: 16px;
+    margin-bottom: 8px;
+    display: block;
+    color: #666;
+}
+
+#image-upload-btn {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#image-upload-btn:hover {
+    background-color: #0056b3;
+}
+
+#uploaded-images-title {
+    font-size: 22px;
+    margin-top: 30px;
+    color: #333;
+}
+
+#uploaded-images .uploaded-image {
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+}
+
+.uploaded-image-img {
+    width: 93%;
+    height: auto;
+    margin-right: 20px;
+    border-radius: 4px;
+}
+
+.delete-btn-img {
+    background-color: #e74c3c;
+    color: white;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.delete-btn-img:hover {
+    background-color: #c0392b;
+}
+
+/* Estilos para la sección de carga de formatos */
+#formats-upload-section {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#formats-upload-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+#formats-upload-form {
+    margin-top: 10px;
+}
+
+#formats-upload-btn {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#formats-upload-btn:hover {
+    background-color: #0056b3;
+}
+
+#uploaded-formats-title {
+    font-size: 22px;
+    margin-top: 30px;
+    color: #333;
+}
+
+#uploaded-formats .uploaded-format {
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+.uploaded-format p {
+    margin: 5px 0;
+}
+
+.delete-btn {
+    background-color: #e74c3c;
+    color: white;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.delete-btn:hover {
+    background-color: #c0392b;
+}
+
+/* Modal de Cargando */
+#loading-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.loading-container {
+    text-align: center;
+    color: white;
+}
+
+.loading-text {
+    margin-bottom: 20px;
+    font-size: 18px;
+}
+
+.spinner {
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top: 4px solid white;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}

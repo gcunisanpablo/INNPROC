@@ -1,0 +1,46 @@
+{% extends 'base_sin_boostrap.html' %}
+{% load static %}
+
+{% block contenido %}
+  <div style="text-align: center;">
+    <h2>Visualizador de Diagramas</h2>
+    <div style="border: 2px solid black; text-align: center; margin-bottom: 50px; align-items: center; margin-top: 50px;">
+      <img id="imagen-zoom" src="{{ documento.image.url }}" alt="Imagen" style="max-width: 100%; height: auto;" />
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      console.log("Cargando correctamente la: $ " + typeof Viewer + " $.") // Debería imprimir 'function' si está cargado correctamente
+    
+      // Verificación de carga de Viewer
+      if (typeof Viewer === 'undefined') {
+        console.error('Viewer.js no se ha cargado correctamente')
+        return
+      }
+    
+      try {
+        var viewer = new Viewer(document.getElementById('imagen-zoom'), {
+          zoomable: true,
+          navbar: true,
+          title: false,
+          toolbar: {
+            zoomIn: true,
+            zoomOut: true,
+            oneToOne: true,
+            reset: true,
+            prev: false,
+            play: false,
+            next: false,
+            rotateLeft: true,
+            rotateRight: true,
+            flipHorizontal: true,
+            flipVertical: true
+          }
+        })
+      } catch (error) {
+        console.error('Error al inicializar Viewer de img:', error)
+      }
+    })
+  </script>
+{% endblock %}

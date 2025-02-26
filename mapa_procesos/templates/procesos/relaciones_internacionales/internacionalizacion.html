@@ -1,0 +1,523 @@
+{% extends 'base_sin_boostrap.html' %}
+{% block titulo %}
+  Internacionalización
+{% endblock %}
+{% block contenido %}
+  {% load static %}
+
+  <head>
+    <link rel="stylesheet" href="{% static 'css/styles_tabla.css' %}" />
+    <!-- Incluye SweetAlert en el <head> o antes de tu script -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  </head>
+  <div id="contenido">
+    <!-- Campos ocultos para los nombres de los modelos -->
+    <p id="modeloBase" hidden>Document_internacionalizacion</p>
+    <p id="DiPr" hidden>DiPr_internacionalizacion</p>
+    <p id="indicadores" hidden>Indicadores_internacionalizacion</p>
+    <!-- documentos asociados diagramas y formatos -->
+    <p id="img" hidden>DocumentImage_internacionalizacion</p>
+    <p id="modelo-formato-documentos" hidden>DocumentDoAs_internacionalizacion_FoAs</p>
+    <!-- Campo oculto para el nombre del modelo -->
+    <input type="hidden" id="model-name" value="EC_internacionalizacion" />
+    <!-- ubicacion HTML -->
+    <p id="folder-name" hidden>relaciones_internacionales</p> <!-- carpeta -->
+    <p id="html-file-name" hidden>internacionalizacion.html</p> <!-- de archivo -->
+    <!-- spinner -->
+    <div id="loading-spinner" class="loading-spinner" style="display: none;">
+      <div class="spinner"></div>
+    </div>
+
+    <table cellspacing="0" cellpadding="0" style=" width: 100%; margin-top: 1%;">
+      <tr>
+        <th rowspan="3" style="width: 15%;">
+          <img src="{% static 'img/logo_oficial_fondo_blanco.jpg' %}" width="70%" height="70%" style="margin: auto; padding: 0; display: block;" />
+        </th>
+        <th id="editable1" contenteditable="{{ is_superuser|yesno:'true,false' }}" style="width: 63%;">CARACTERIZACIÓN DE PROCESOS UNISANPABLO</th>
+        <th id="editable2" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left" style="width: 22%;">Código: CR-RI-INI</th>
+      </tr>
+      <tr>
+        <th id="editable3" contenteditable="{{ is_superuser|yesno:'true,false' }}" style="width: 63%;">RELACIONES INTERINSTITUCIONALES</th>
+        <th id="editable4" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left" style="width: 22%;">Versión: 1</th>
+      </tr>
+      <tr>
+        <th id="editable5" contenteditable="{{ is_superuser|yesno:'true,false' }}" style="width: 63%;">INTERINSTITUCIONALIZACIÓN E INTERNACIONALIZACIÓN</th>
+        <th id="editable6" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left" style="width: 22%;">Fecha: 26/Sep/2024</th>
+      </tr>
+    </table>
+    <table cellspacing="0" cellpadding="0" style=" width: 100%; margin-top: -1.75px;">
+      <tr>
+        <th colspan="3" style="padding-top: 0.75pt;">
+          <p class="especial">PROCESO</p>
+        </th>
+      </tr>
+      <tr>
+        <td style="width: 50%">
+          <p class="subtitulo">NOMBRE:</p>
+          <p id="editable7" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left">Interinstitucionalización e Internacionalización</p>
+        </td>
+        <td style="width: 50%">
+          <p class="subtitulo">ALCANCE:</p>
+          <p id="editable8" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left">Inicia con la revisión y ajuste de la Política de Inter institucionalización e Internacionalización y la elaboración y ejecución de dicha política, hasta el seguimiento y evaluación de la misma.</p>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <p class="subtitulo">OBJETIVO:</p>
+          <p id="editable9" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left">Direccionar y Gestionar la Inter institucionalización e Internacionalización de UNISANPABLO para contribuir con la formación integral de profesionales e investigadores globalmente competitivos a través de acciones de direccionamiento estratégico para la inmersión y participación activa de la institución en la sociedad del conocimiento en el ámbito local, Nacional e Internacional.</p>
+        </td>
+      </tr>
+    </table>
+    <table cellspacing="0" cellpadding="0" style=" width: 100%; margin-top: -1.50px;">
+      <tr>
+        <th style="padding-top: 0.75pt; width: 13%;">
+          <p class="especial">PROVEEDORES</p>
+        </th>
+        <th style="padding-top: 0.75pt; width: 13%;">
+          <p style="margin-left: 0.25pt;" class="especial">ENTRADAS</p>
+        </th>
+        <th style="padding-top: 0.75pt; width: 9%;">
+          <p class="especial">PHVA</p>
+        </th>
+        <th style="padding-top: 0.75pt; width: 26%;">
+          <p style="margin-left: 0.25pt;" class="especial">DESCRIPCIÓN</p>
+        </th>
+        <th style="padding-top: 0.75pt; width: 26%;">
+          <p class="especial">SALIDAS</p>
+        </th>
+        <th style="padding-top: 0.75pt; width: 13%;">
+          <p class="especial">CLIENTES</p>
+        </th>
+      </tr>
+      <tr>
+        <td style="width: 13%">
+          <p class="subtitulo">EXTERNOS</p>
+          <p id="editable10" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left">(P1) IES Externas Nacionales e Internacionales.
+(P2) Entidades Privadas Nacionales e Internacionales.
+(P3) Entidades Públicas Nacionales e Internacionales.
+(P4) Estudiantes.
+(P5) Graduados.
+(P6) Aspirantes.
+(P7) Egresados.</p>
+          <p class="subtitulo">INTERNOS.</p>
+          <p id="editable11" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left">(P8) Profesores.
+(P9) Colaboradores
+(P10) Proceso Vida Estudiantil.
+(P11) Proceso Alianzas e Iniciativas Estratégicas.
+(P12) Proceso Gestión de Registro Calificado.
+(P13) Proceso Planeación Financiera y Presupuesto.
+(P14) Programas Académicos.
+(P15) Macroproceso de Investigación.
+(P16) Proceso Relacionamiento con Graduado y Egresado.
+(P17) Proceso de Relaciones Laborales.
+(P18) Proceso Comunicaciones Corporativas
+(P19) Todos los procesos.</p>
+        </td>
+        <td style="width: 13%">
+          <p id="editable12" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left">(E1) Información de becas, programas y lineamientos de movilidad.
+(E1, E4, E5, E6, E7) Solicitudes de movilidad de Estudiantes y Graduados.
+(E13) Presupuesto asignado/Plan operativo.
+(E14, E15) Iniciativas de internacionalización y movilidad de programas académicos.
+(E19) Necesidades de los clientes internos.</p>
+        </td>
+        <td colspan="2" style="width: auto; padding: 0; height: 200px;">
+          <table cellspacing="0" cellpadding="0" style="width: 100%; height: 100%; border-right: none; border-bottom: none;">
+            <tr>
+              <td style="width: 9%; text-align: center; vertical-align: middle; border-top:none; border-left:none;">
+                <p class="subtitulo">P</p>
+              </td>
+              <td style="width: 26%; border-top:none; border-right: none; vertical-align: middle;">
+                <p id="editable13" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left">1. Formular e institucionalizar la política de Inter institucionalización e internacionalización. 
+2. Formular el plan de acción anual.</p>
+              </td>
+            </tr>
+            <tr>
+              <td style="width: 9%; text-align: center; vertical-align: middle; border-left:none;">
+                <p class="subtitulo">H</p>
+              </td>
+              <td style="width: 26%; padding-bottom: 0; vertical-align: middle;">
+                <p id="editable14" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left">3. Establecer la gestión integral y las acciones de direccionamiento estratégico para la Inter institucionalización e internacionalización de la UNISANPABLO.
+4. Desarrollar e implementar un sistema de información.
+5. Difundir y socializar la gestión del proceso.
+6. Promover la movilidad académica estudiantil y docente y el aprendizaje de otros idiomas.
+7. Fomentar la internacionalización de la investigación y la extensión.
+8. Gestionar la consecución de recursos e identificar y promover las relaciones interinstitucionales de la UNISANPABLO por medio de la gestión de convenios.</p>
+              </td>
+            </tr>
+            <tr>
+              <td style="width: 9%; text-align: center; vertical-align: middle; border-left:none;">
+                <p class="subtitulo">V</p>
+              </td>
+              <td style="width: 26%; vertical-align: middle;">
+                <p id="editable15" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left">9. Realizar el seguimiento a corto plazo del plan de acción anual.
+10. Realizar a largo plazo, la política de Inter institucionalización e internacionalización.</p>
+              </td>
+            </tr>
+            <tr>
+              <td style="width: 9%; text-align: center; vertical-align: middle; border-left:none; border-bottom: none;">
+                <p class="subtitulo">A</p>
+              </td>
+              <td style="width: 26%; border-bottom: none; vertical-align: middle;">
+                <p id="editable16" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left">11. Retroalimentar y tomar acciones de mejora en el corto, mediano y largo plazo.</p>
+              </td>
+            </tr>
+          </table>
+        </td>
+        <td style="width: 26%">
+          <p id="editable17" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left">(S1, S2, S3, S4, S5, S6, S7, S8, S9, S11, S12) Internacionalización en Casa.
+(S1, S2, S3, S4, S5, S6, S11, S12, S13, S14, S15) Movilidad estudiantes y graduados.
+(S1, S2, S3, S8, S9, S12) Movilidad Profesores y Colaboradores.
+(S1, S2, S3, S4, S5, S6, S7, S8, S9) Asesoramientos.
+(S4) Portafolio de servicios de movilidad.
+(S13) Informes de seguimiento.</p>
+        </td>
+        <td style="width: 13%">
+          <p class="subtitulo">EXTERNOS</p>
+          <p id="editable18" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left">(C1) IES Externas Nacionales e Internacionales.
+(C2) Entidades Privadas Nacionales e Internacionales.
+(C3) Entidades Públicas Nacionales e Internacionales.
+(C4) Estudiantes.
+(C5) Graduados.
+(C6) Aspirantes.
+(C7) Egresados.</p>
+          <p class="subtitulo">INTERNOS.</p>
+          <p id="editable19" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left">(C8) Profesores.
+(C9) Colaboradores.
+(C10) Proceso Aseguramiento de la Calidad Académica.
+(C11) Proceso Relacionamiento con Graduado y Egresado.
+(C12) Proceso Aseguramiento de la Calidad Académica.
+(C13) Todos los Procesos.</p>
+        </td>
+      </tr>
+    </table>
+    <table cellspacing="0" cellpadding="0" style=" width: 100%; margin-top: -1.50px;">
+      <tr>
+        <th style="padding-top: 0.75pt;">
+          <p class="especial">REQUISITOS LEGALES Y NORMATIVOS</p>
+        </th>
+        <th style="padding-top: 0.75pt;">
+          <p class="especial">DIAGRAMA DE PROCESO - ROLES Y RESPONSABILIDADES</p>
+        </th>
+      </tr>
+      <tr>
+        <td style="width: 50%; padding: 0;">
+          <table cellspacing="0" cellpadding="0" style="height: 100%; width: 100%; border: none;">
+            <tr>
+              <td style="width: 20%; border: none;">
+                <div id="contenido-principal-requilegalnorma" style="flex: 1; padding-top: 0.5%; padding-left: 2.5%; padding-bottom: 0.5%;">
+                  <!-- Aquí se insertará la lista de requilegalnorma -->
+                </div>
+              </td>
+              <td style="width: 5%; padding: 0; vertical-align: middle; border: none;">
+                {% if user.is_authenticated and user.is_superuser %}
+                  <div style="height: 100%; display: flex; align-items: center; justify-content: center;">
+                    <button class="btn btn-insertar" id="insertar_requilegalnorma" style="padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 24px;">&#43;</button>
+                  </div>
+                {% else %}
+                  <div style="height: 100%; display: flex; align-items: center; justify-content: center;">
+                    <button id="insertar_requilegalnorma" style="padding: 10px 20px; background-color: white; color: white; border: none;" disabled></button>
+                  </div>
+                {% endif %}
+              </td>
+            </tr>
+          </table>
+        </td>
+        <td style="width: 50%">
+          <table cellspacing="0" cellpadding="0" style="height: 100%; width: 100%; border: none;">
+            <tr>
+              <td style="width: 20%; border: none;">
+                <div id="contenido-principal-diagramas" style="flex: 1; padding-top: 0.5%; padding-left: 1%; padding-bottom: 0.5%;">
+                  <!-- Aquí se insertará la lista de diagramas -->
+                </div>
+              </td>
+              <td style="width: 5%; padding: 0; vertical-align: middle; border: none;">
+                {% if user.is_authenticated and user.is_superuser %}
+                  <div style="height: 100%; display: flex; align-items: center; justify-content: center;">
+                    <button class="btn btn-insertar" id="insertar_diagramas" style="padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 24px;">&#43;</button>
+                  </div>
+                {% else %}
+                  <div style="height: 100%; display: flex; align-items: center; justify-content: center;">
+                    <button id="insertar_diagramas" style="padding: 10px 20px; background-color: white; color: white; border: none;" disabled></button>
+                  </div>
+                {% endif %}
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+    <table cellspacing="0" cellpadding="0" style=" width: 100%; margin-top: -1.50px;">
+      <tr>
+        <th style="padding-top: 0.75pt;">
+          <p class="especial">INDICADORES</p>
+        </th>
+        <th style="padding-top: 0.75pt;">
+          <p class="especial">REQUISITOS Y NECESIDADES DE LAS PARTES INTERESADAS</p>
+        </th>
+      </tr>
+      <tr>
+        <td style="width: 50%">
+          <table cellspacing="0" cellpadding="0" style="height: 100%; width: 100%; border: none;">
+            <tr>
+              <td style="width: 20%; border: none;">
+                <div id="contenido-principal-indicadores" style="flex: 1; padding-top: 0.5%; padding-left: 1%; padding-bottom: 0.5%;">
+                  <!-- Aquí se insertará la lista de INDICADORES -->
+                </div>
+              </td>
+              <td style="width: 5%; padding: 0; vertical-align: middle; border: none;">
+                {% if user.is_authenticated and user.is_superuser %}
+                  <div style="height: 100%; display: flex; align-items: center; justify-content: center;">
+                    <button class="btn btn-insertar" id="insertar_indicadores" style="padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 24px;">&#43;</button>
+                  </div>
+                {% else %}
+                  <div style="height: 100%; display: flex; align-items: center; justify-content: center;">
+                    <button id="insertar_indicadores" style="padding: 10px 20px; background-color: white; color: white; border: none;" disabled></button>
+                  </div>
+                {% endif %}
+              </td>
+            </tr>
+          </table>
+        </td>
+        <td style="width: 50%">
+          <table cellspacing="0" cellpadding="0" style="height: 100%; width: 100%; border: none;">
+            <tr>
+              <td style="width: 20%; border: none;">
+                <div id="contenido-principal-requinecepartintere" style="flex: 1; padding-top: 0.5%; padding-left: 2.5%; padding-bottom: 0.5%;">
+                  <!-- Aquí se insertará la lista de requinecepartintere -->
+                </div>
+              </td>
+              <td style="width: 5%; padding: 0; vertical-align: middle; border: none;">
+                {% if user.is_authenticated and user.is_superuser %}
+                  <div style="height: 100%; display: flex; align-items: center; justify-content: center;">
+                    <button class="btn btn-insertar" id="insertar_requinecepartintere" style="padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 24px;">&#43;</button>
+                  </div>
+                {% else %}
+                  <div style="height: 100%; display: flex; align-items: center; justify-content: center;">
+                    <button id="insertar_requinecepartintere" style="padding: 10px 20px; background-color: white; color: white; border: none;" disabled></button>
+                  </div>
+                {% endif %}
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <table cellspacing="0" cellpadding="0" style=" width: 100%; margin-top: -1.75px;">
+        <tr>
+          <th style="padding-top: 0.75pt;">
+            <p class="especial">DOCUMENTOS ASOCIADOS</p>
+          </th>
+        </tr>
+        <tr>
+          <td style="width: 100%;">
+            <table cellspacing="0" cellpadding="0" style="height: 100%; width: 80%; border: none;">
+              <tr>
+                <td style="width: 20%; border: none;">
+                  <div id="contenido-principal" style="flex: 1; padding-top: 0.5%; padding-left: 1%; padding-bottom: 0.5%;">
+                    <!-- Aquí se insertará la lista de documentos -->
+                  </div>
+                </td>
+                <td style="width: 5%; padding: 0; vertical-align: middle; border: none;">
+                  {% if user.is_authenticated and user.is_superuser %}
+                    <div style="height: 100%; display: flex; align-items: center; justify-content: center;">
+                      <button class="btn btn-insertar" id="insertar_documentos" style="padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 24px;">&#43;</button>
+                    </div>
+                  {% else %}
+                    <div style="height: 100%; display: flex; align-items: center; justify-content: center;">
+                      <button id="insertar_documentos" style="padding: 10px 20px; background-color: white; color: white; border: none;" disabled></button>
+                    </div>
+                  {% endif %}
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </table>
+    <table cellspacing="0" cellpadding="0" style=" width: 100%; margin-top: -1.50px;">
+      <tr>
+        <th style="padding-top: 0.75pt;">
+          <p class="especial">VERSIÓN</p>
+        </th>
+        <th style="padding-top: 0.75pt;">
+          <p style="margin-left: 0.25pt;" class="especial">FECHA</p>
+        </th>
+        <th style="padding-top: 0.75pt;">
+          <p class="especial">RAZÓN DE LA ACTUALIZACIÓN</p>
+        </th>
+      </tr>
+      <tr>
+        <td style="width: 11%">
+          <p id="editable20" contenteditable="{{ is_superuser|yesno:'true,false' }}" style="text-align: center;">1</p>
+        </td>
+        <td style="width: 11%">
+          <p id="editable21" contenteditable="{{ is_superuser|yesno:'true,false' }}" style="text-align: center;">26/09/2024</p>
+        </td>
+        <td style="width: 50%">
+          <p id="editable22" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left">Creación del proceso</p>
+        </td>
+      </tr>
+    </table>
+    <table cellspacing="0" cellpadding="0" style=" width: 100%; margin-top: -1.50px;">
+      <tr>
+        <th style="padding-top: 0.75pt;">
+          <p class="especial">ELABORÓ</p>
+        </th>
+        <th style="padding-top: 0.75pt;">
+          <p class="especial">REVISÓ</p>
+        </th>
+        <th style="padding-top: 0.75pt;">
+          <p style="margin-left: 0.25pt;" class="especial">APROBÓ</p>
+        </th>
+      </tr>
+      <tr>
+        <td style="width: 33%">
+          <div>
+            <span class="subtitulo">Nombre:</span>
+            <p id="editable23" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left" style="display: inline;">Daniela Torres Torres</p>
+          </div>
+          <div>
+            <span class="subtitulo">Cargo:</span>
+            <p id="editable24" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left" style="display: inline;">Aprendiz</p>
+          </div>
+          <div>
+            <span class="subtitulo">Fecha:</span>
+            <p id="editable25" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left" style="display: inline;">26/09/2024</p>
+          </div>
+        </td>
+        <td style="width: 33%">
+          <div>
+            <span class="subtitulo">Nombre:</span>
+            <p id="editable26" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left" style="display: inline;">Martha Esperanza Rodríguez</p>
+          </div>
+          <div>
+            <span class="subtitulo">Cargo:</span>
+            <p id="editable27" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left" style="display: inline;">subdirectora Calidad, Procesos y Riesgos.</p>
+          </div>
+          <div>
+            <span class="subtitulo">Fecha:</span>
+            <p id="editable28" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left" style="display: inline;">26/09/2024</p>
+          </div>
+          <br />
+          <div>
+            <span class="subtitulo">Nombre:</span>
+            <p id="editable29" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left" style="display: inline;">...</p>
+          </div>
+          <div>
+            <span class="subtitulo">Cargo:</span>
+            <p id="editable30" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left" style="display: inline;">...</p>
+          </div>
+          <div>
+            <span class="subtitulo">Fecha:</span>
+            <p id="editable31" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left" style="display: inline;">...</p>
+          </div>
+          <br />
+          <div>
+            <span class="subtitulo">Nombre:</span>
+            <p id="editable32" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left" style="display: inline;">...</p>
+          </div>
+          <div>
+            <span class="subtitulo">Cargo:</span>
+            <p id="editable33" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left" style="display: inline;">...</p>
+          </div>
+          <div>
+            <span class="subtitulo">Fecha:</span>
+            <p id="editable34" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left" style="display: inline;">...</p>
+          </div>
+        </td>
+        <td style="width: 33%">
+          <div>
+            <span class="subtitulo">Nombre:</span>
+            <p id="editable35" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left" style="display: inline;">Henry Lurbey Hueso</p>
+          </div>
+          <div>
+            <span class="subtitulo">Cargo:</span>
+            <p id="editable36" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left" style="display: inline;">Rector</p>
+          </div>
+          <div>
+            <span class="subtitulo">Fecha:</span>
+            <p id="editable37" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left" style="display: inline;">18/02/2025</p>
+          </div>
+          <br />
+          <div>
+            <span class="subtitulo">Nombre:</span>
+            <p id="editable38" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left" style="display: inline;">...</p>
+          </div>
+          <div>
+            <span class="subtitulo">Cargo:</span>
+            <p id="editable39" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left" style="display: inline;">...</p>
+          </div>
+          <div>
+            <span class="subtitulo">Fecha:</span>
+            <p id="editable40" contenteditable="{{ is_superuser|yesno:'true,false' }}" class="text-left" style="display: inline;">...</p>
+          </div>
+        </td>
+      </tr>
+    </table>
+    <!-- Modal Documentos -->
+    <div id="myModal" style="display: none; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0, 0, 0, 0.5);">
+      <div style="background-color: #fff; margin: auto; padding: 20px; border-radius: 5px; width: 50%; position: relative; top: 50%; transform: translateY(-50%);">
+        <span id="closeModal" style="color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer;">&times;</span>
+        <h4 style="text-align: center;">Datos del Documento</h4>
+        <div id="modalContent"></div> <!-- Contenido del formulario se cargará aquí -->
+      </div>
+    </div>
+    <!-- Modal de carga -->
+    <div id="loading-modal" style="display: none;">
+      <div class="loading-container">
+        <div class="loading-text">Cargando contenido...</div>
+        <div class="spinner"></div>
+      </div>
+    </div>
+    <!-- Modal de Enviando Datos -->
+    <div id="sending-modal" style="display: none;">
+      <div class="loading-container">
+        <div class="loading-text">Enviando datos...</div>
+        <div class="spinner"></div>
+      </div>
+    </div>
+    <p style="margin-top:0pt; margin-bottom:8pt;">&nbsp;</p>
+  </div>
+  {% if user.is_authenticated and user.is_superuser %}
+    <button id="saveButton" style="padding: 15px 30px; 
+         font-size: 18px; 
+         background-color: #4CAF50; 
+         color: white; 
+         border: none; 
+         border-radius: 5px; 
+         cursor: pointer; 
+         transition: background-color 0.3s, transform 0.2s;" onmouseover="this.style.backgroundColor='#45a049'; this.style.transform='scale(1.05)';" onmouseout="this.style.backgroundColor='#4CAF50'; this.style.transform='scale(1)';" onmousedown="this.style.transform='scale(0.95)';" onmouseup="this.style.transform='scale(1.05)';">Guardar</button>
+
+    <p style="margin-top:0pt; margin-bottom:8pt;">&nbsp;</p>
+  {% else %}
+    <p style="margin-top:0pt; margin-bottom:8pt;">&nbsp;</p>
+  {% endif %}
+  <div id="output" hidden></div>
+  {% block scripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script>
+      // Obtener los valores de los elementos HTML
+      let modeloBaseValue = document.getElementById('modeloBase').innerText
+      let imgValue = document.getElementById('img').innerText
+      let modeloFormatoDocumentosValue = document.getElementById('modelo-formato-documentos').innerText
+      
+      // Guardar o sobrescribir en el localStorage
+      localStorage.setItem('modeloBase', modeloBaseValue)
+      localStorage.setItem('img', imgValue)
+      localStorage.setItem('modelo', modeloFormatoDocumentosValue)
+      
+      // Imprimir todo el contenido de localStorage en la consola
+      console.log(localStorage)
+    </script>
+    <script src="{% static 'js/contentManagement.js' %}"></script>
+    <script src="{% static 'js/diagramsManagement.js' %}"></script>
+    <script src="{% static 'js/documentsManagement.js' %}"></script>
+    <script src="{% static 'js/indicatorsManagement.js' %}"></script>
+    <script src="{% static 'js/requiLegalNormaManagement.js' %}"></script>
+    <script src="{% static 'js/requiNecePartIntereManagement.js' %}"></script>
+    <script src="{% static 'js/saveDocument.js' %}"></script>
+  {% endblock %}
+{% endblock %}

@@ -1,0 +1,222 @@
+th[contenteditable='true'],
+p[contenteditable='true'],
+td[contenteditable='true'] {
+    background-color: #f0f0f0;
+    /* color de fondo gris claro para visibilidad */
+}
+
+table {
+    border: 0.75pt outset #eeeeee;
+}
+
+th,
+td {
+    border: 0.75pt inset #eeeeee;
+    font-family: Arial;
+    padding-top: 3px;
+    font-size: 12pt;
+}
+
+.text-left {
+    text-align: left;
+    padding-left: 3.75pt;
+}
+
+.especial {
+    background-color: #3f94ab;
+    margin-left: 1pt;
+    vertical-align: middle;
+    color: #ffffff;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 4pt;
+    padding-top: 3pt;
+}
+
+.subtitulo {
+    padding-top: 2pt;
+    margin: 0;
+    padding-left: 3.75pt;
+    font-weight: bold;
+    vertical-align: top;
+}
+
+td {
+    vertical-align: top;
+}
+
+p {
+    margin-top: 2pt;
+    margin-bottom: 5pt;
+    font-size: 11pt;
+}
+
+td a {
+    font-size: 18px;
+    text-decoration: none;
+    padding-left: 0.7%;
+}
+
+td a:visited {
+    color: blue;
+    /* Color para enlaces visitados */
+}
+
+/*Carga de contenido ------------------------------------------------------------ */
+/* Estilo para el spinner */
+.loading-spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.spinner {
+    border: 4px solid #f3f3f3;
+    /* Gris claro */
+    border-top: 4px solid #3498db;
+    /* Azul */
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+
+/* Animación del spinner */
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Transición suave para el cambio de contenido */
+.editable-content {
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+.editable-content.loaded {
+    opacity: 1;
+}
+
+/*Modal de carga*/
+/* Estilo para el modal de carga */
+#loading-modal,
+#sending-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Fondo oscuro semitransparente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    /* Asegurarse de que el modal esté encima de todo */
+}
+
+/* Estilo para el contenedor del modal */
+.loading-container {
+    text-align: center;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 40%;
+    /* Ajusta el tamaño de acuerdo a tus necesidades */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* Centra los elementos verticalmente */
+    align-items: center;
+    /* Centra los elementos horizontalmente */
+    min-height: 150px;
+    /* Asegura que el modal tenga altura suficiente para mostrar el spinner */
+}
+
+/* Estilo para el texto que indica "Cargando contenido..." o "Enviando datos..." */
+.loading-text {
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    color: #333;
+    /* Color del texto */
+    animation: fadeIn 1s ease-out;
+}
+
+/* Estilo del spinner */
+.spinner {
+    border: 4px solid #f3f3f3;
+    /* Gris claro */
+    border-top: 4px solid #3498db;
+    /* Azul */
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+}
+
+/* Animación del spinner */
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Animación para que el texto se desvanezca al aparecer */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/*botones*/
+/* Estilo general para los botones verdes */
+.btn {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 2px;
+}
+
+/* Botón verde (insertar) */
+.btn-insertar {
+    background: linear-gradient(to right, #4caf50 0%, #66bb6a 100%);
+}
+
+.btn-insertar:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(to right, #388e3c 0%, #66bb6a 100%);
+}
+
+/* Iconos dentro de los botones */
+.btn i {
+    font-size: 18px;
+}

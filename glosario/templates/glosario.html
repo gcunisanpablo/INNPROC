@@ -1,0 +1,171 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block titulo %}
+  Glosario
+{% endblock %}
+{% block contenido %}
+  <link rel="stylesheet" href="{% static 'css/glosario.css' %}" />
+  <div class="container-fluid" style="margin: 0;">
+    <!-- Buscador -->
+    <div class="container page-enter-scale">
+      <form method="get" action="{% url 'glosario' %}" class="pop-hover">
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="Buscar Términos" name="q" value="{{ request.GET.q }}" />
+          <button class="btn btn-outline-secondary" type="submit">Buscar <i class="bi bi-search"></i></button>
+        </div>
+      </form>
+    </div>
+    {% if user.is_authenticated and user.is_superuser %}
+    <!-- Boton nuevo termino -->
+      <div class="container mb-3 page-enter-scale">
+        <a href="{% url 'nuevo-termino' %}" class="btn btn-gradient">Agrega un nuevo Término <i class="bi bi-bookmark-plus"></i></a>
+      </div>
+    {% endif %}
+
+    <!-- Menu Paginación -->
+    <nav aria-label="Page navigation">
+      <ul class="pagination justify-content-center">
+        {% if terminos.has_previous %}
+          <li class="page-item">
+            <a class="page-link" href="?page=1" aria-label="Primera"><span aria-hidden="true">&laquo;&laquo; Primero</span></a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="?page={{ terminos.previous_page_number }}" aria-label="Anterior"><span aria-hidden="true">Anterior</span></a>
+          </li>
+        {% endif %}
+
+        <li class="page-item disabled">
+          <span class="page-link">Página {{ terminos.number }} de {{ terminos.paginator.num_pages }}. Número de resultados: ({{ terminos.paginator.count }})</span>
+        </li>
+
+        {% if terminos.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ terminos.next_page_number }}" aria-label="Siguiente"><span>Siguiente</span></a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="?page={{ terminos.paginator.num_pages }}" aria-label="Última"><span>Último &raquo;&raquo;</span></a>
+          </li>
+        {% endif %}
+      </ul>
+    </nav>
+    <div class="fondo" style="text-align: center; border-radius: 7px; overflow: hidden;">
+      <!-- Tabla Glosario -->
+      <div class="table-responsive" style="width: 100%; background-color: white; border-radius: 7px; overflow: hidden;">
+        <table class="table table-hover mx-auto" style="border-radius: 7px;">
+          <thead>
+            <tr>
+              <th colspan="7" style="background-color: #f0f0f0; color: #333; padding: 15px 10px; text-align: center; font-size: 1.6rem; font-weight: bold; border-top: 2px solid #ddd; border-bottom: 2px solid #ddd; border-radius: 7px 7px 0 0;">
+                Glosario <i class="bi bi-list-check"></i>
+              </th>
+            </tr>
+
+            <tr style="text" class="peq">
+              <th scope="col" style="width: 2%; font-size: 1.2rem;">ID</th>
+              <th scope="col" style="width: 10%; font-size: 1.2rem;">Término</th>
+              <th scope="col" style="width: 32%; font-size: 1.2rem;">Definición</th>
+              {% if user.is_authenticated and user.is_superuser %}
+                <th scope="col" style="width: 5%; font-size: 1.2rem;">Acciones</th>
+              {% endif %}
+            </tr>
+          </thead>
+          <tbody class="page-enter-fade">
+            {% for glosario in terminos %}
+              <tr class="pop-hover">
+                <td style="vertical-align: middle; text-align: center;">
+                  <p style="margin: 0;">
+                    <!-- Auto-incrementar el ID segun paginación -->
+                    {{ terminos.start_index|add:forloop.counter0 }}
+                  </p>
+                </td>
+                <td style="vertical-align: middle;">
+                  <p style="margin: 0;">{{ glosario.termino }}</p>
+                </td>
+                <td style="vertical-align: middle; padding-top: 7px; text-align: left;">
+                  <p style="margin: 0;">{{ glosario.definicion }}</p>
+                </td>
+                {% if user.is_authenticated and user.is_superuser %}
+                  <td style="vertical-align: middle;">
+                    <a class="btn-demas btn-edit" href="{% url 'editar-termino' glosario.id_termino %}" role="button"><i class="bi bi-pencil-square"></i></a>
+                    <a class="btn-demas btn-delete" href="{% url 'eliminar-termino' glosario.id_termino %}" role="button" onclick="confirmDelete(event)"><i class="bi bi-trash"></i></a>
+                  </td>
+                {% endif %}
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Añadir clases de animación
+      const elementsToAnimate = [document.querySelector('.card'), document.querySelector('.pagination'), document.querySelector('.table')]
+    
+      elementsToAnimate.forEach((element) => {
+        if (element) {
+          // Pequeño retraso para efecto escalonado
+          setTimeout(() => {
+            element.classList.add('loaded')
+          }, 300)
+        }
+      })
+    })
+  </script>
+  <script>
+    // Mensajes de Alerta
+    {% if messages %}
+          {% for message in messages %}
+              {% if 'success' in message.tags %}
+                  Swal.fire({
+                      icon: 'success',
+                      title: 'Éxito',
+                      text: '{{ message }}',
+                      confirmButtonText: 'Aceptar'
+                  });
+              {% elif 'error' in message.tags %}
+                  Swal.fire({
+                      icon: 'error',
+                      title: 'Error',
+                      text: '{{ message }}',
+                      confirmButtonText: 'Entendido'
+                  });
+              {% elif 'warning' in message.tags %}
+                  Swal.fire({
+                      icon: 'warning',
+                      title: 'Advertencia',
+                      text: '{{ message }}',
+                      confirmButtonText: 'Ok'
+                  });
+              {% else %}
+                  Swal.fire({
+                      icon: 'info',
+                      title: 'Información',
+                      text: '{{ message }}',
+                      confirmButtonText: 'Cerrar'
+                  });
+              {% endif %}
+          {% endfor %}
+      {% endif %}
+  </script>
+  <script>
+    // doble Verificación
+    function confirmDelete(event) {
+      event.preventDefault() // Prevenir el comportamiento predeterminado del enlace
+    
+      Swal.fire({
+        title: '¿Estás seguro?',
+        text: '¡No podrás revertir esto!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminarlo'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = event.target.closest('a').href
+        }
+      })
+    }
+  </script>
+{% endblock %}

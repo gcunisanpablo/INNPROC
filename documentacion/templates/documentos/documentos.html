@@ -1,0 +1,238 @@
+{% extends 'base.html' %}
+
+{% block titulo %}
+  Lista maestra de documentos
+{% endblock %}
+
+{% block contenido %}
+  <style>
+    .fondo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      background: linear-gradient(318deg, #ff3d3d, #8b0000, #ff6b6b, #600000, #ff9999);
+      background-size: 500% 500%;
+      animation: Coolgradient 30s ease infinite;
+      padding: 20px; /* Add padding */
+    }
+    
+    .card {
+      width: 100%; /* Make the card wider */
+    }
+    
+    /* Efecto hover mejorado */
+    .btn-accion {
+      transition: all 0.3s ease;
+    }
+    
+    .btn-accion:hover {
+      transform: scale(1.2) rotate(5deg);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    }
+    
+    @keyframes Coolgradient {
+      0% {
+        background-position: 0% 50%;
+      }
+    
+      50% {
+        background-position: 100% 50%;
+      }
+    
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+    
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+    .page-enter-fade {
+      animation: fadeIn 1s ease-in forwards;
+    }
+    
+    .pop-hover {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      transform: scale(0.99);
+    }
+    
+    .pop-hover:hover {
+      transform: scale(1);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+    .peq {
+      transform: scale(0.99);
+      vertical-align: middle;
+      height: 60px;
+    }
+  </style>
+  <div class="container-fluid">
+    <div class="container page-enter-scale">
+      {% csrf_token %}
+      <form method="get" action="{% url 'documentos' %}" class="pop-hover">
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="Buscar documentos" name="q" value="{{ request.GET.q }}" />
+          <button class="btn btn-outline-secondary" type="submit">Buscar <i class="bi bi-search"></i></button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Mostrar la paginación -->
+    <nav aria-label="Page navigation">
+      <ul class="pagination justify-content-center page-enter-left">
+        {% if documentos.has_previous %}
+          <li class="page-item">
+            <a class="page-link" href="?page=1" aria-label="Primera"><span aria-hidden="true">&laquo;&laquo; Primero</span></a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="?page={{ documentos.previous_page_number }}" aria-label="Anterior"><span aria-hidden="true">Anterior</span></a>
+          </li>
+        {% endif %}
+
+        <li class="page-item disabled">
+          <span class="page-link">Página {{ documentos.number }} de {{ documentos.paginator.num_pages }}. Número de resultados: ({{ documentos.paginator.count }})</span>
+        </li>
+
+        {% if documentos.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ documentos.next_page_number }}" aria-label="Siguiente"><span>Siguiente</span></a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="?page={{ documentos.paginator.num_pages }}" aria-label="Última"><span>Último &raquo;&raquo;</span></a>
+          </li>
+        {% endif %}
+      </ul>
+    </nav>
+
+    <div class="fondo" style="text-align: center; border-radius: 7px;">
+      <div class="card">
+        <h4 class="card-title" style="margin-bottom: 0; background-color: #f0f0f0; color: #333; padding: 15px 10px; text-align: center; font-size: 1.5rem; font-weight: bold; border-top: 2px solid #ddd; border-bottom: 2px solid #ddd; border-radius: 7px 7px 0 0;">Listado de Documentos <i class="bi bi-file-earmark-fill"></i></h4>
+        <div class="card-body" style="padding-top: 0;">
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead>
+                <tr class="peq">
+                  <th scope="col" style="width: 3%; font-size: 1.2rem;">ID</th>
+                  <th scope="col" style="width: 15%; font-size: 1.2rem;">Código</th>
+                  <th scope="col" style="width: 30%; font-size: 1.2rem;">Título</th>
+                  <th scope="col" style="width: 26%; font-size: 1.2rem;">Extensión</th>
+                  <th scope="col" style="width: 14%; font-size: 1.2rem;">Fecha de Creación</th>
+                  <th scope="col" style="width: 6%; text-align: center; font-size: 1.2rem;">Visualizar</th>
+                  <th scope="col" style="width: 6%; text-align: center; font-size: 1.2rem;">Descargar</th>
+                </tr>
+              </thead>
+              <tbody class="page-enter-fade">
+                {% for item in documentos %}
+                  <tr class="pop-hover">
+                    <td style="vertical-align: middle;">
+                      <!-- Auto-incrementar el ID segun paginación -->
+                      {{ documentos.start_index|add:forloop.counter0 }}
+                    </td>
+                    <td style="vertical-align: middle;">
+                      {% if item.codigo %}
+                        {{ item.codigo }}
+                      {% else %}
+                        {{ item.caracterizacion }}
+                      {% endif %}
+                    </td>
+                    <td style="vertical-align: middle;">
+                      {% if item.titulo %}
+                        {{ item.titulo }}
+                      {% elif item.title %}
+                        {{ item.title }}
+                      {% endif %}
+                    </td>
+                    <td style="vertical-align: middle;">
+                      {% if item.caracterizacion %}
+                        {{ item.caracterizacion }}
+                      {% elif item.prodecimiento %}
+                        {{ item.prodecimiento }}
+                      {% endif %}
+                    </td>
+                    <td style="vertical-align: middle;">{{ item.fecha_creacion|date:'d F Y' }} a las {{ item.fecha_creacion|date:'h:i A' }}</td>
+                    <td style="text-align: center; vertical-align: middle;">
+                      {% if item.file %}
+                        {% with extension=item.file.name|slice:'-5:' %}
+                          {% if extension == '.xlsx' %}
+                            <!-- Si el archivo es xlsx -->
+                            {% if item.id_archivo %}
+                              solo descarga
+                            {% elif item.id %}
+                              solo descarga
+                            {% endif %}
+                          {% else %}
+                            <!-- Si el archivo no es xlsx -->
+                            {% if item.id_archivo %}
+                              <a href="{% url 'ver_pdf_solo' item.id_archivo %}" class="btn btn-info btn-sm rounded-pill btn-accion text-decoration-none"><i class="bi bi-eye-fill" style="color: white;"></i></a>
+                            {% elif item.id %}
+                              <a href="{% url 'ver_pdf_solo_formatos' item.id %}" class="btn btn-info btn-sm rounded-pill btn-accion text-decoration-none"><i class="bi bi-eye-fill" style="color: white;"></i></a>
+                            {% endif %}
+                          {% endif %}
+                        {% endwith %}
+                      {% endif %}
+                    </td>
+                    <td style="text-align: center; vertical-align: middle;">
+                      {% if item.file %}
+                        {% with extension=item.file.name|slice:'-4:' %}
+                          {% if extension == '.pdf' %}
+                            <!-- Si el archivo es PDF -->
+                            {% if item.id_archivo %}
+                              <a class="btn btn-danger btn-sm rounded-pill btn-accion" href="{% url 'download' item.id_archivo %}"><i class="bi bi-download"></i></a>
+                            {% elif item.id %}
+                              <a class="btn btn-danger btn-sm rounded-pill btn-accion" href="{% url 'download' item.id %}"><i class="bi bi-download"></i></a>
+                            {% endif %}
+                          {% endif %}
+                        {% endwith %}
+                        {% with extension=item.file.name|slice:'-5:' %}
+                          {% if extension == '.xlsx' %}
+                            <!-- Si el archivo es xlsx -->
+                            {% if item.id_archivo %}
+                              <a class="btn btn-success btn-sm rounded-pill btn-accion" href="{% url 'download_documents' item.id_archivo %}"><i class="bi bi-download"></i></a>
+                            {% elif item.id %}
+                              <a class="btn btn-success btn-sm rounded-pill btn-accion" href="{% url 'download_format' item.id %}"><i class="bi bi-download"></i></a>
+                            {% endif %}
+                          {% endif %}
+                        {% endwith %}
+                        {% with extension=item.file.name|slice:'-5:' %}
+                          {% if extension == '.docx' %}
+                            <!-- Si el archivo es docx -->
+                            {% if item.id_archivo %}
+                              <a class="btn btn-primary btn-sm rounded-pill btn-accion" href="{% url 'download_documents' item.id_archivo %}"><i class="bi bi-download"></i></a>
+                            {% elif item.id %}
+                              <a class="btn btn-primary btn-sm rounded-pill btn-accion" href="{% url 'download_format' item.id %}"><i class="bi bi-download"></i></a>
+                            {% endif %}
+                          {% endif %}
+                        {% endwith %}
+                      {% endif %}
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Añadir clases de animación
+      const elementsToAnimate = [document.querySelector('.card'), document.querySelector('.pagination'), document.querySelector('.table')]
+    
+      elementsToAnimate.forEach((element) => {
+        if (element) {
+          // Pequeño retraso para efecto escalonado
+          setTimeout(() => {
+            element.classList.add('loaded')
+          }, 300)
+        }
+      })
+    })
+  </script>
+{% endblock %}

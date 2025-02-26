@@ -1,0 +1,50 @@
+{% block contenido %}
+<style>
+  /* Estilo específico para el botón rojo (eliminar) */
+  .btn-eliminar {
+    background: linear-gradient(to right, #f44336 0%, #e53935 100%) !important; /* Rojo ligeramente más oscuro */
+    color: white !important;
+    border: none !important;
+    border-radius: 5px !important;
+    font-size: 18px !important;
+    cursor: pointer !important;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease !important;
+  }
+  
+  .btn-eliminar:hover {
+    transform: scale(1.05) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+    background: linear-gradient(to right, #e57373 0%, #f44336 100%) !important; /* Rojo más claro */
+  }
+</style>
+  <ul style="list-style-type: none; padding-left: 0; margin-top: 0; margin-bottom: 0;">
+    {% for documento in documentos %}
+      <li style="margin-bottom: 5px; position: relative;">
+        <a id="mi-enlace-diagramas_{{ documento.id }}" href="#" data-id="{{ documento.id }}" data-modelo-base="{{ modeloBase }}" style="color: blue; text-decoration: none;">
+          <span style="color: blue; margin-right: 5px;">•</span>
+          {{ documento.nombre }} <!-- Muestra solo el nombre del archivo sin la extensión -->
+        </a>
+        {% if user.is_authenticated and user.is_superuser %}
+          <button class="btn btn-eliminar" id="eliminar_diagramas_{{ documento.id }}" data-nombre="{{ documento.nombre }}" style="background: red; border: none; border-radius: 5px; color: white; font-size: 18px; cursor: pointer; position: absolute; right: 0; margin-top: -1px; ">&#10006;</button>
+        {% endif %}
+      </li>
+    {% empty %}
+      <li>No hay diagramas disponibles.</li>
+      <!-- cambiar para que sea generico el DiPr_admisiones_registro_control -->
+    {% endfor %}
+  </ul>
+{% endblock %}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Manejo de botones de eliminación
+    const botones = document.querySelectorAll('[id^="eliminar_diagramas_"]')
+    botones.forEach((button) => {
+      button.addEventListener('click', function () {
+        const nombreArchivo = this.getAttribute('data-nombre')
+        console.log('Eliminar archivo:', nombreArchivo)
+        // Aquí puedes agregar la lógica para eliminar el archivo
+      })
+    })
+  })
+</script>

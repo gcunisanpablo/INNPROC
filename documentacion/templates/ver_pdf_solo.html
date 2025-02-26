@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+{% block titulo %}
+  Visualizar PDF
+{% endblock %}
+{% block contenido %}
+  <!-- Modal de carga -->
+  <div id="loading-modal">
+    <div class="loading-container">
+      <div class="loading-text">Cargando contenido...</div>
+      <div class="spinner"></div>
+    </div>
+  </div>
+  <div class="container-fluid d-flex justify-content-center align-items-center" style="padding: 0;">
+    <!-- Contenedor para el visor PDF -->
+    <div id="single-page-pdf-container" class="border rounded overflow-auto" style="height: 100%; width: 95%; margin: 0; display: flex; align-items: center; justify-content: center; position: relative;">
+      <canvas id="pdf-viewer-single" style="display: block; margin: auto;"></canvas>
+      <!-- Botón Anterior -->
+      <button class="btn btn-light" id="prev" style="position: absolute; top: 50%; left: 10px; transform: translateY(-50%); width: 50px; height: 80px;">
+        <span class="carousel-control-prev-icon"></span>
+        <span class="visually-hidden">Anterior</span>
+      </button>
+      <!-- Botón Siguiente -->
+      <button class="btn btn-light" id="next" style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%); width: 50px; height: 80px;">
+        <span class="carousel-control-next-icon"></span>
+        <span class="visually-hidden">Siguiente</span>
+      </button>
+      <!-- Número de página -->
+      <div id="page-number" style="position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); font-weight: bold; font-size: 18px;"></div>
+    </div>
+  </div>
+  <!-- Cargar PDF.js desde un CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.min.js"></script>
+  <script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.worker.min.js'
+    
+    let pdfDoc = null,
+      pageNum = 1,
+      pageIsRendering = false
+    
+    const canvas = document.getElementById('pdf-viewer-single')
+    const ctx = canvas.getContext('2d')
+    const pageNumberDisplay = document.getElementById('page-number')
+    
+    const pdfPath = "{% url 'download_pdf' document.id_archivo %}"
+    
+    // Mostrar el modal de carga mientras se renderiza la página
+    showLoadingModal()
+    
+    // Mostrar el modal de carga
+    function showLoadingModal() {
+      document.getElementById('loading-modal').style.display = 'flex'
+    }
+    
+    // Ocultar el modal de carga
+    function hideLoadingModal() {
+      document.getElementById('loading-modal').style.display = 'none'
+    }
+    
+    // Renderizar página
+    function renderPage(num) {
+      pageIsRendering = true
+    
+      // Obtener la página
+      pdfDoc
+        .getPage(num)
+        .then((page) => {
+          const viewport = page.getViewport({ scale: 2 })
+          canvas.height = viewport.height
+          canvas.width = viewport.width
+    
+          const renderContext = {
+            canvasContext: ctx,
+            viewport: viewport
+          }
+    
+          return page.render(renderContext).promise
+        })
+        .then(() => {
+          pageIsRendering = false
+          hideLoadingModal()
+        })
+    
+      // Actualizar número de página
+      pageNumberDisplay.textContent = `Página ${num} de ${pdfDoc.numPages}`
+    }
+    
+    // Cargar el PDF
+    pdfjsLib.getDocument(pdfPath).promise.then((pdfDoc_) => {
+      pdfDoc = pdfDoc_
+      renderPage(pageNum)
+    })
+    
+    // Botones de navegación
+    document.getElementById('prev').addEventListener('click', () => {
+      if (pageNum <= 1 || pageIsRendering) return
+      pageNum--
+      renderPage(pageNum)
+    })
+    
+    document.getElementById('next').addEventListener('click', () => {
+      if (pageNum >= pdfDoc.numPages || pageIsRendering) return
+      pageNum++
+      renderPage(pageNum)
+    })
+  </script>
+  <style>
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+      width: 100%;
+      height: 100%;
+    }
+    
+    .btn-light {
+      background-color: gray;
+    }
+    
+    /* Modal de Cargando */
+    #loading-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+    
+    .loading-container {
+      text-align: center;
+      color: white;
+    }
+    
+    .loading-text {
+      margin-bottom: 20px;
+      font-size: 18px;
+    }
+    
+    .spinner {
+      border: 4px solid rgba(255, 255, 255, 0.3);
+      border-top: 4px solid white;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto;
+    }
+    
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+{% endblock %}
